@@ -10,6 +10,7 @@ namespace RWQoLPatch
     {
         private Vector2 scrollPosition = new Vector2(0,0);
         private readonly Listing_Standard Options_Content = new Listing_Standard();
+        private static float ContentHeight = 0f;
 
         private readonly List<(bool active, Action<Listing_Standard> draw)> sections = new List<(bool active, Action<Listing_Standard> draw)>
         {
@@ -18,13 +19,18 @@ namespace RWQoLPatch
                 var core = ModLister.GetExpansionWithIdentifier("ludeon.rimworld").LabelCap;
                 Utilities_UI.MediumLabel(ls, core);
                 ls.GapLine();
-                ls.CheckboxLabeled("RWQoLPatch_HoldOpenDoorInstantly".Translate(),
+                ls.CheckboxLabeled(LocalizationCache.Core.HoldOpenDoorInstantly,
                     ref TheSettings.HoldOpenDoorInstantly);
-                ls.CheckboxLabeled("RWQoLPatch_MortarsAutoCool".Translate(), ref TheSettings.MortarsAutoCool);
-                ls.CheckboxLabeled("RWQoLPatch_NoPrisonBreak".Translate(), ref TheSettings.NoPrisonBreak);
-                ls.CheckboxLabeled("RWQoLPatch_TogglePowerInstantly".Translate(), ref TheSettings.TogglePowerInstantly);
-                ls.CheckboxLabeled("RWQoLPatch_NoMoreRelation".Translate(), ref TheSettings.NoMoreRelationGen);
-                ls.CheckboxLabeled("RWQoLPatch_NoBreakDownPatch".Translate(), ref TheSettings.NoBreakDownPatch);
+                ls.CheckboxLabeled(LocalizationCache.Core.MortarsAutoCool, ref TheSettings.MortarsAutoCool);
+                ls.CheckboxLabeled(LocalizationCache.Core.NoPrisonBreak, ref TheSettings.NoPrisonBreak);
+                ls.CheckboxLabeled(LocalizationCache.Core.TogglePowerInstantly, ref TheSettings.TogglePowerInstantly);
+                ls.CheckboxLabeled(LocalizationCache.Core.NoMoreRelation, ref TheSettings.NoMoreRelationGen);
+                ls.CheckboxLabeled(LocalizationCache.Core.NoBreakDownPatch, ref TheSettings.NoBreakDownPatch);
+                ls.CheckboxLabeled(LocalizationCache.Core.FloorNotOverrideFloor, ref TheSettings.FloorNotOverrideFloor);
+                ls.CheckboxLabeled(LocalizationCache.Core.PlanetCoveragesModify, ref TheSettings.PlanetCoveragesModify);
+                ls.Label(LocalizationCache.Core.CaravanNightRestTime(TheSettings.CaravanNightRestTime), tooltip: LocalizationCache.Core.CaravanNightRestTimeTooltips);
+                Utilities_UI.FloatRangeSliderWithStep(ls.GetRect(24f), ref TheSettings.CaravanNightRestTime, 0f, 24f,
+                    1f);
                 ls.Gap();
             }),
             (ModsConfig.RoyaltyActive, ls =>
@@ -33,7 +39,7 @@ namespace RWQoLPatch
                 // Options_Content.Label(royaltyname);
                 Utilities_UI.MediumLabel(ls, royaltyname);
                 ls.GapLine();
-                ls.CheckboxLabeled("RWQoLPatch_SetTransporterAutoLoad".Translate(),
+                ls.CheckboxLabeled(LocalizationCache.Royalty.SetTransporterAutoLoad,
                     ref TheSettings.TransporterAutoload);
                 ls.Gap();
             }),
@@ -42,7 +48,7 @@ namespace RWQoLPatch
                 Utilities_UI.MediumLabel(ls,
                     ModLister.GetExpansionWithIdentifier("ludeon.rimworld.ideology").LabelCap);
                 ls.GapLine();
-                ls.Label("RWQoLPatch_PreceptRoleNum".Translate(TheSettings.PreceptRoleNum));
+                ls.Label(LocalizationCache.Ideology.PreceptRoleNum(TheSettings.PreceptRoleNum));
                 // Options_Content.IntAdjuster(ref TheSettings.PreceptRoleNum, 1,2); // IntAdjuster 太傻逼不想用
                 TheSettings.PreceptRoleNum =
                     Mathf.RoundToInt(ls.Slider(TheSettings.PreceptRoleNum, 2, 20));
@@ -54,20 +60,15 @@ namespace RWQoLPatch
                 Utilities_UI.MediumLabel(ls, ModLister.GetExpansionWithIdentifier("ludeon.rimworld.biotech").LabelCap);
                 ls.GapLine();
 
-                ls.CheckboxLabeled("RWQoLPatch_SubCoreScannerShowPawnType".Translate(),
+                ls.CheckboxLabeled(LocalizationCache.Biotech.SubCoreScannerShowPawnType,
                     ref TheSettings.SubCoreScannerShowPawnType);
-                ls.CheckboxLabeled("RWQoLPatch_DownedOverseerControlMechs".Translate(),
+                ls.CheckboxLabeled(LocalizationCache.Biotech.DownedOverseerControlMechs,
                     ref TheSettings.DownedOverseerControlMechs);
-                ls.CheckboxLabeled("RWQoLPatch_MechChargeRatePatch".Translate(), ref TheSettings.MechChargeRatePatch);
+                ls.CheckboxLabeled(LocalizationCache.Biotech.MechChargeRatePatch, ref TheSettings.MechChargeRatePatch);
                 if (TheSettings.MechChargeRatePatch)
                 {
                     ls.Indent(24f);
-                    ls.Label("RWQoLPatch_MechChargeRatePatchTips".Translate
-                        (
-                            TheSettings.MechChargeRate.ToString("F2"),
-                            Mathf.RoundToInt(100f / TheSettings.MechChargeRate),
-                            100f / TheSettings.MechChargeRate * 60f
-                        )
+                    ls.Label(LocalizationCache.Biotech.MechChargeRatePatchTips(TheSettings.MechChargeRate)
                     );
                     ls.Outdent(24f);
                     TheSettings.MechChargeRate =
@@ -100,6 +101,7 @@ namespace RWQoLPatch
                 ls.GapLine();
                 ls.CheckboxLabeled("RWQoLPatch_RimatomicUnmannedPatch".Translate(), ref TheSettings.RimatomicUnmannedPatch,"");
                 ls.CheckboxLabeled("RWQoLPatch_RimatomicLocPatch".Translate(), ref TheSettings.RimatomicLocPatch,"");
+                ls.CheckboxLabeled("RWQoLPatch_RimatomicFixPatch".Translate(), ref TheSettings.RimatomicFixPatch,"");
                 
                 ls.Gap();
             }),
@@ -108,6 +110,13 @@ namespace RWQoLPatch
                 Utilities_UI.MediumLabel(ls, "Dubs Bad Hygiene");
                 ls.GapLine();
                 ls.CheckboxLabeled("RWQoLPatch_DBHLocPatch".Translate(), ref TheSettings.DBHLocPatch,"");
+                ls.Gap();
+            }),
+            (ModsConfig.IsActive("lwm.deepstorage"), ls =>
+            {
+                Utilities_UI.MediumLabel(ls, "LWM's Deep Storage");
+                ls.GapLine();
+                ls.CheckboxLabeled("RWQoLPatch_LWMDeepStorageLocPatch".Translate(), ref TheSettings.LWMDeepStorageLocPatch,"");
                 ls.Gap();
             })
         };
@@ -122,32 +131,42 @@ namespace RWQoLPatch
             var measuringLS = new Listing_Standard();
             Rect measuringRect = new Rect(9999, 9999, 0f, 9999f); // 看不到 = 不会被发现
             measuringLS.Begin(measuringRect);
+            int rows = 0;
+            float colMaxHeight = 0f;
+            var MaxRow = Mathf.Max(4, sections.Count / 2);
             foreach (var section in sections)
             {
                 if(!section.active) continue;
+
                 section.draw(measuringLS);
+
+                if (rows++ <= MaxRow)
+                    colMaxHeight = measuringLS.CurHeight;
+                else
+                {
+                    colMaxHeight = Mathf.Max(colMaxHeight, measuringLS.CurHeight - colMaxHeight) + 24f;
+                }
             }
-            var contentHeight = measuringLS.CurHeight;
+            // var contentHeight = measuringLS.CurHeight;
             measuringRect.Set(0,0,0,0);
             measuringLS.End();
-            return contentHeight;
+            return colMaxHeight;
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            float contentHeight = 0f;
-            contentHeight = getHeight();
-            Rect scrollViewRect = new Rect(0f, 20f, inRect.width - 16f, contentHeight);
+            ContentHeight = getHeight();
+            Rect scrollViewRect = new Rect(0f, 20f, inRect.width - 16f, ContentHeight);
             Widgets.BeginScrollView(inRect, ref scrollPosition, scrollViewRect);
             Options_Content.Begin(scrollViewRect);
             int row = 0;
             bool newcol = false;
-            var MaxRow = Math.Max(5, sections.Count / 2);
+            var MaxRow = Mathf.Max(4, sections.Count / 2);
             foreach (var section in sections)
             {
                 if (!section.active) continue;
-                row++;
-                if (row > MaxRow && !newcol)
+
+                if (row++ > MaxRow && !newcol)
                 {
                     Options_Content.ColumnWidth = (scrollViewRect.width -20f) / 2f;
                     newcol = true;

@@ -378,10 +378,12 @@
     <Compile Include="HarmonyPatches\CorePatches.cs" />
     <Compile Include="HarmonyPatches\DubsBadHygienePatches.cs" />
     <Compile Include="HarmonyPatches\IdeologyPatches.cs" />
+    <Compile Include="HarmonyPatches\LWMDeepStoragePatches.cs" />
     <Compile Include="HarmonyPatches\OdysseyPatches.cs" />
     <Compile Include="HarmonyPatches\RimatomicPatches.cs" />
     <Compile Include="HarmonyPatches\RimefellerPatches.cs" />
     <Compile Include="HarmonyPatches\RoyaltyPatches.cs" />
+    <Compile Include="LocalizationCache.cs" />
     <Compile Include="ModMain.cs" />
     <Compile Include="PluginMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs"/>

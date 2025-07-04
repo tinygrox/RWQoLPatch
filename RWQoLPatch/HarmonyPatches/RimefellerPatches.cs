@@ -75,7 +75,6 @@ namespace RWQoLPatch.HarmonyPatches
                         new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(TheSettings), nameof(TheSettings.RimefellerUnmannedPatch))),
                         new CodeInstruction(OpCodes.Brfalse_S, label)
                     });
-
                     codeList[i].opcode = OpCodes.Brtrue_S;
                     codeList[i].operand = newlabel;
                     break;

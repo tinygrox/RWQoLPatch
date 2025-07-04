@@ -28,7 +28,7 @@ namespace RWQoLPatch.HarmonyPatches
 
             for (int i = 0; i < codeList.Count; i++)
             {
-                if (codeList[i].opcode == OpCodes.Ldstr && codeList[i].operand as string == "Tracking")
+                if (codeList[i].opcode == OpCodes.Ldstr && (codeList[i].operand as string)!.Contains("Tracking"))
                 {
                     codeList[i].opcode =  OpCodes.Call;
                     codeList[i].operand = AccessTools.Method(typeof(RimatomicPatches), nameof(TrackingLabelTranslate));
@@ -41,7 +41,7 @@ namespace RWQoLPatch.HarmonyPatches
 
         public static void RimatomicStoragePoolFix(ref string __result)
         {
-            if (__result == string.Empty && TheSettings.RimatomicFixPatch)
+            if (__result == null! && TheSettings.RimatomicFixPatch)
             {
                 __result = "GroupPlural".Translate();
             }

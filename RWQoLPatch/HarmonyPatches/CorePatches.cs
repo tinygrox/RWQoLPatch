@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using TinyGroxMods.HarmonyFramework;
+using UnityEngine;
 using Verse;
 
 namespace RWQoLPatch.HarmonyPatches
@@ -88,6 +91,72 @@ namespace RWQoLPatch.HarmonyPatches
         {
             return !TheSettings.NoBreakDownPatch;
         }
+
+        public static bool FloorNotOverrideFloor(BuildableDef entDef, IntVec3 center, Rot4 rot, Map map, ref AcceptanceReport __result)
+        {
+            if(!TheSettings.FloorNotOverrideFloor) return true;
+            
+            TerrainDef terrainDef = (entDef as TerrainDef)!;
+            
+            if (terrainDef != null! )
+            {
+                if (terrainDef.categoryType == map.terrainGrid.TerrainAt(center).categoryType)
+                {
+                    __result = "RWQoLPatch_FloorNotOverrideFloor_Tips".Translate();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static float[] get_PlanetCoveragesModify()
+        {
+
+            if (TheSettings.PlanetCoveragesModify)
+                return Enumerable.Range(1, 20).Select(i => i * 0.05f).ToArray();
+            return new [] { 0.3f, 0.5f, 1f };
+        }
+
+        public static IEnumerable<CodeInstruction> PlanetCoverageModify(IEnumerable<CodeInstruction> codeInstructions)
+        {
+            var codeList = codeInstructions.ToList();
+            var PlanetCoverages = AccessTools.Field(typeof(Page_CreateWorldParams), "PlanetCoverages");
+            var PlanetCoveragesDev = AccessTools.Field(typeof(Page_CreateWorldParams), "PlanetCoveragesDev");
+            for (int i = 0; i < codeList.Count(); i++)
+            {
+                if (codeList[i].opcode == OpCodes.Ldsfld && codeList[i].operand as FieldInfo == PlanetCoverages)
+                {
+                    codeList[i].opcode = OpCodes.Call;
+                    codeList[i].operand = AccessTools.Method(typeof(CorePatches), nameof(get_PlanetCoveragesModify));
+                    break;
+                }
+            }
+
+            return codeList.AsEnumerable();
+        }
+        public static IEnumerable<CodeInstruction> CaravanNightRestTimeModify(IEnumerable<CodeInstruction> codeInstructions)
+        {
+            var codeList = codeInstructions.ToList();
+            for (int i = 0; i < codeList.Count(); i++)
+            {
+                if (codeList[i].opcode == OpCodes.Ldc_R4 && Mathf.Approximately((float)codeList[i].operand, 22f))
+                {
+                    codeList[i].opcode = OpCodes.Ldsfld;
+                    codeList[i].operand = AccessTools.Field(typeof(TheSettings), nameof(TheSettings.CaravanNightRestTime));
+                    codeList.Insert(i + 1, new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FloatRange), nameof(FloatRange.max))));
+                    break;
+                }
+                if (codeList[i].opcode == OpCodes.Ldc_R4 && Mathf.Approximately((float)codeList[i].operand, 6f))
+                {
+                    codeList[i].opcode = OpCodes.Ldsfld;
+                    codeList[i].operand = AccessTools.Field(typeof(TheSettings), nameof(TheSettings.CaravanNightRestTime));
+                    codeList.Insert(i + 1, new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(FloatRange), nameof(FloatRange.min))));
+                }
+            }
+
+            return codeList.AsEnumerable();
+        }
         protected override void LoadAllPatchInfo()
         {
             HarmonyPatches = new HashSet<HarmonyPatchInfo>()
@@ -128,15 +197,40 @@ namespace RWQoLPatch.HarmonyPatches
                 ),
                 new HarmonyPatchInfo(
                     "禁止亲戚关系生成",
-                    AccessTools.Method(typeof(PawnRelationWorker),nameof(PawnRelationWorker.BaseGenerationChanceFactor), new []{typeof(Pawn), typeof(Pawn), typeof(PawnGenerationRequest)}),
+                    AccessTools.Method(typeof(PawnRelationWorker),
+                        nameof(PawnRelationWorker.BaseGenerationChanceFactor),
+                        new[] { typeof(Pawn), typeof(Pawn), typeof(PawnGenerationRequest) }),
                     new HarmonyMethod(typeof(CorePatches), nameof(NoRelationGenerationChancePatch)),
                     HarmonyPatchType.Postfix
                 ),
                 new HarmonyPatchInfo(
                     "电器永不故障",
-                    AccessTools.Method(typeof(CompBreakdownable),"CanBreakdownNow", new Type[]{}),
+                    AccessTools.Method(typeof(CompBreakdownable), "CanBreakdownNow"),
                     new HarmonyMethod(typeof(CorePatches), nameof(NoBreakDownPatch)),
                     HarmonyPatchType.Prefix
+                ),
+                new HarmonyPatchInfo(
+                    "铺设地板禁止覆盖其他地板",
+                    AccessTools.Method(typeof(GenConstruct), nameof(GenConstruct.CanPlaceBlueprintAt_NewTemp),
+                        new []
+                        {
+                            typeof(BuildableDef), typeof(IntVec3), typeof(Rot4), typeof(Map), typeof(bool),
+                            typeof(Thing), typeof(Thing), typeof(ThingDef), typeof(bool), typeof(bool), typeof(bool)
+                        }),
+                    new HarmonyMethod(typeof(CorePatches), nameof(FloorNotOverrideFloor)),
+                    HarmonyPatchType.Prefix
+                ),
+                new HarmonyPatchInfo(
+                    "全球覆盖率扩展",
+                    AccessTools.Method(typeof(Page_CreateWorldParams), nameof(Page_CreateWorldParams.DoWindowContents), new[] {typeof(Rect)}),
+                    new HarmonyMethod(typeof(CorePatches), nameof(PlanetCoverageModify)),
+                    HarmonyPatchType.Transpiler
+                ),
+                new HarmonyPatchInfo(
+                    "远行队夜晚休息时间调整",
+                    AccessTools.Method(typeof(CaravanNightRestUtility), nameof(CaravanNightRestUtility.WouldBeRestingAt), new[] {typeof(int), typeof(long)}),
+                    new HarmonyMethod(typeof(CorePatches), nameof(CaravanNightRestTimeModify)),
+                    HarmonyPatchType.Transpiler
                 ),
             };
         }

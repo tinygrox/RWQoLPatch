@@ -34,7 +34,9 @@ namespace RWQoLPatch.HarmonyPatches
             int replaced = 0;
             for (int i = 0;i + 1 < codeList.Count; i++)
             {
-
+                if (replaced >= 2)
+                    break;
+                
                 if (codeList[i].opcode == OpCodes.Ldc_I4_2 && codeList[i + 1].opcode == OpCodes.Blt_S)
                 {
                     codeList[i].opcode = OpCodes.Ldsfld;
@@ -48,9 +50,7 @@ namespace RWQoLPatch.HarmonyPatches
                     codeList[i].operand = AccessTools.Field(typeof(TheSettings), nameof(TheSettings.PreceptRoleNum));
                     replaced++;
                 }
-
-                if (replaced >= 2)
-                    break;
+                
             }
             return codeList.AsEnumerable();
         }

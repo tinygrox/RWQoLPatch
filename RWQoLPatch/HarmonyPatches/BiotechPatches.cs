@@ -157,7 +157,7 @@ namespace RWQoLPatch.HarmonyPatches
                     HarmonyPatchType.Transpiler
                 ),
                 new HarmonyPatchInfo(
-                    "机械体充电速率修改2",
+                    "机械体充电速率修改 - 相应信息",
                     AccessTools.Method(typeof(Pawn),nameof(Pawn.GetInspectString)),
                     new HarmonyMethod(typeof(BiotechPatches), nameof(MechChargeRateInspectPatch)),
                     HarmonyPatchType.Transpiler
