@@ -144,7 +144,7 @@ namespace RWQoLPatch
                     colMaxHeight = measuringLS.CurHeight;
                 else
                 {
-                    colMaxHeight = Mathf.Max(colMaxHeight, measuringLS.CurHeight - colMaxHeight) + 24f;
+                    colMaxHeight = Mathf.Max(colMaxHeight, measuringLS.CurHeight - colMaxHeight);
                 }
             }
             // var contentHeight = measuringLS.CurHeight;

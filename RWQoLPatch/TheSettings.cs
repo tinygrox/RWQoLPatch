@@ -21,7 +21,7 @@ namespace RWQoLPatch
         public static bool RimefellerLocPatch = true;
         public static bool RimatomicUnmannedPatch = true;
         public static bool RimatomicLocPatch = true;
-        public static bool RimatomicFixPatch = true;
+        public static bool RimatomicFixPatch;
         public static bool NoBreakDownPatch = true;
         public static bool DBHLocPatch = true;
         public static bool PlanetCoveragesModify = true;

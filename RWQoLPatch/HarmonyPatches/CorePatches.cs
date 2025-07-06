@@ -100,7 +100,11 @@ namespace RWQoLPatch.HarmonyPatches
             
             if (terrainDef != null! )
             {
-                if (terrainDef.categoryType == map.terrainGrid.TerrainAt(center).categoryType)
+                if (terrainDef.categoryType == map.terrainGrid.TerrainAt(center).categoryType && 
+                    !map.terrainGrid.TerrainAt(center).IsOcean && 
+                    !map.terrainGrid.TerrainAt(center).IsWater && 
+                    !map.terrainGrid.TerrainAt(center).IsRiver &&
+                    !map.terrainGrid.TerrainAt(center).IsSoil)
                 {
                     __result = "RWQoLPatch_FloorNotOverrideFloor_Tips".Translate();
                     return false;
