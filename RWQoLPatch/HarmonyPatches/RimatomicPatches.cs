@@ -54,24 +54,28 @@ namespace RWQoLPatch.HarmonyPatches
                 new HarmonyPatchInfo
                 (
                     "Rimatomic 无人操作补丁",
-                    AccessTools.PropertyGetter(AccessTools.TypeByName("Rimatomics.WeaponsConsole"),"Manned"),
+                    AccessTools.PropertyGetter(AccessTools.TypeByName("Rimatomics.WeaponsConsole"), "Manned"),
                     new HarmonyMethod(typeof(RimatomicPatches), nameof(RimatomicUnmannedPatch)),
                     HarmonyPatchType.Postfix
                 ),
                 new HarmonyPatchInfo
                 (
                     "Rimatomic 硬编码翻译补充",
-                    AccessTools.Method(AccessTools.TypeByName("Rimatomics.WeaponsConsole+<GetGizmos>d__29"),"MoveNext"),
+                    AccessTools.Method(AccessTools.TypeByName("Rimatomics.WeaponsConsole+<GetGizmos>d__29"),
+                        "MoveNext"),
                     new HarmonyMethod(typeof(RimatomicPatches), nameof(RimatomicTrackingLocPatch)),
                     HarmonyPatchType.Transpiler
                 ),
+#if RIMWORLD_1_5
                 new HarmonyPatchInfo
                 (
                     "Rimatomic 存储池修复",
-                    AccessTools.PropertyGetter(AccessTools.TypeByName("Rimatomics.Building_storagePool"),"GroupingLabel"),
+                    AccessTools.PropertyGetter(AccessTools.TypeByName("Rimatomics.Building_storagePool"),
+                        "GroupingLabel"),
                     new HarmonyMethod(typeof(RimatomicPatches), nameof(RimatomicStoragePoolFix)),
                     HarmonyPatchType.Postfix
                 ),
+#endif
             };
         }
 

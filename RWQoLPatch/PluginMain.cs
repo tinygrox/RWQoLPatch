@@ -12,15 +12,15 @@ namespace RWQoLPatch
     [StaticConstructorOnStartup]
     public class PluginMain
     {
-        public static readonly RWLogger logger = new RWLogger();
         static PluginMain()
         {
+            RWLogger logger = new RWLogger();
             Stopwatch clock = Stopwatch.StartNew();
             Harmony harmonyInstance = new Harmony("tinygrox.mods.RWQoLPatch");
             // Harmony.DEBUG = true;
             var modchecker = new RWModChecker();
             IEnumerable<Type> patchTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => typeof(AbstractPatchBase).IsAssignableFrom(t) && !t.IsAbstract);
-            // List<AbstractPatchBase>? patches = new List<AbstractPatchBase>();
+            
             int patches = 0;
             
             AbstractPatchBase.ModName = "RWQoLPatch";

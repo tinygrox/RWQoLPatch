@@ -1,4 +1,5 @@
 using System;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -16,8 +17,12 @@ namespace RWQoLPatch
             public static readonly string NoMoreRelation = "RWQoLPatch_NoMoreRelation".Translate();
             public static readonly string NoBreakDownPatch = "RWQoLPatch_NoBreakDownPatch".Translate();
             public static readonly string FloorNotOverrideFloor = "RWQoLPatch_FloorNotOverrideFloor".Translate();
+            public static readonly string FloorNotOverrideFloor_Tips = "RWQoLPatch_FloorNotOverrideFloor_Tips".Translate();
             public static readonly string PlanetCoveragesModify = "RWQoLPatch_PlanetCoveragesModify".Translate();
             public static readonly string CaravanNightRestTimeTooltips = "RWQoLPatch_CaravanNightRestTime_tooltips".Translate();
+            public static readonly string NoShortCircuit = "RWQoLPatch_NoShortCircuit".Translate();
+            public static readonly string NoSolarFlare = "RWQoLPatch_NoSolarFlare".Translate();
+            public static readonly string NoCenterDrop = "RWQoLPatch_NoCenterDrop".Translate();
             private static string cacheCaravanNightRestTime = string.Empty;
             private static FloatRange cacheTime = new FloatRange(0,0);
 
@@ -32,10 +37,10 @@ namespace RWQoLPatch
                 return cacheCaravanNightRestTime;
             }
         }
-
         public static class Royalty
-        {
+        { 
             public static readonly string SetTransporterAutoLoad = "RWQoLPatch_SetTransporterAutoLoad".Translate();
+            public static readonly string NoPsyfocusDown = "RWQoLPatch_NoPsyfocusDown".Translate();
         }
 
         public static class Ideology
@@ -83,6 +88,11 @@ namespace RWQoLPatch
 
                 return cacheTips;
             }
+        }
+
+        public static class Anomaly
+        {
+            public static readonly string NoEnityEscape = "RWQoLPatch_NoEnityEscape".Translate();
         }
         
     }

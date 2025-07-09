@@ -14,12 +14,46 @@ namespace RWQoLPatch.HarmonyPatches
 {
     public class CorePatches: AbstractPatchBase
     {
-
         protected override string ModDisplayName => "Core";
         protected override string ModId => "ludeon.rimworld";
-        public static bool NoPrisonBreak()
+
+        public static void NoCenterDropPatch(ref IncidentParms parms)
+        {
+            if (!TheSettings.NoCenterDrop ) return;
+
+            if (parms.raidArrivalMode != PawnsArrivalModeDefOf.CenterDrop || parms.faction.PlayerRelationKind != FactionRelationKind.Hostile) return;
+
+            if (Prefs.DevMode)
+                Messages.Message("CenterDropDisable", MessageTypeDefOf.NeutralEvent);
+
+            parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeDrop;
+        }
+        public static bool NoSolarFlarePatch(IncidentWorker_MakeGameCondition __instance, ref bool __result)
+        {
+            if (!TheSettings.NoSolarFlare) return true;
+
+            if (__instance.def.gameCondition.defName != "SolarFlare") return true;
+
+            if(Prefs.DevMode) 
+                Messages.Message("SolarFlareDisable", MessageTypeDefOf.NeutralEvent);
+            
+            __result = false;
+
+            return false;
+        }
+        public static bool NoPrisonBreakPatch()
         {
             return !TheSettings.NoPrisonBreak;
+        }
+
+        public static bool NoShortCircuitPatch(ref bool __result)
+        {
+            if(!TheSettings.NoShortCircuit) return true;
+
+            if (Prefs.DevMode)
+                Messages.Message("ShortCircuitDisable", MessageTypeDefOf.NeutralEvent);
+            __result = false;
+            return false;
         }
 
         public static void BurstCooldownTickPatch(ref int ___burstCooldownTicksLeft, ref Effecter ___progressBarEffecter, CompMannable ___mannableComp, Building_TurretGun __instance)
@@ -61,14 +95,14 @@ namespace RWQoLPatch.HarmonyPatches
             }
         }
 
-        public static void HoldOpenDoorInstantly(ref bool ___holdOpenInt, ref bool ___openInt)
+        public static void HoldOpenDoorInstantlyPatch(ref bool ___holdOpenInt, ref bool ___openInt)
         {
             if(!TheSettings.HoldOpenDoorInstantly) return;
 
             ___openInt = ___holdOpenInt;
         }
 
-        public static bool TogglePowerInstantly(ref bool ___wantSwitchOn, CompFlickable __instance)
+        public static bool TogglePowerInstantlyPatch(ref bool ___wantSwitchOn, CompFlickable __instance)
         {
             if (!TheSettings.TogglePowerInstantly)
                 return true;
@@ -92,23 +126,22 @@ namespace RWQoLPatch.HarmonyPatches
             return !TheSettings.NoBreakDownPatch;
         }
 
-        public static bool FloorNotOverrideFloor(BuildableDef entDef, IntVec3 center, Rot4 rot, Map map, ref AcceptanceReport __result)
+        public static bool FloorNotOverrideFloorPatch(BuildableDef entDef, IntVec3 center, Rot4 rot, Map map, ref AcceptanceReport __result)
         {
             if(!TheSettings.FloorNotOverrideFloor) return true;
             
             TerrainDef terrainDef = (entDef as TerrainDef)!;
-            
-            if (terrainDef != null! )
+
+            if (terrainDef == null!) return true;
+
+            if (terrainDef.categoryType == map.terrainGrid.TerrainAt(center).categoryType && 
+                !map.terrainGrid.TerrainAt(center).IsOcean && 
+                !map.terrainGrid.TerrainAt(center).IsWater && 
+                !map.terrainGrid.TerrainAt(center).IsRiver &&
+                !map.terrainGrid.TerrainAt(center).IsSoil)
             {
-                if (terrainDef.categoryType == map.terrainGrid.TerrainAt(center).categoryType && 
-                    !map.terrainGrid.TerrainAt(center).IsOcean && 
-                    !map.terrainGrid.TerrainAt(center).IsWater && 
-                    !map.terrainGrid.TerrainAt(center).IsRiver &&
-                    !map.terrainGrid.TerrainAt(center).IsSoil)
-                {
-                    __result = "RWQoLPatch_FloorNotOverrideFloor_Tips".Translate();
-                    return false;
-                }
+                __result = LocalizationCache.Core.FloorNotOverrideFloor_Tips;
+                return false;
             }
 
             return true;
@@ -122,7 +155,7 @@ namespace RWQoLPatch.HarmonyPatches
             return new [] { 0.3f, 0.5f, 1f };
         }
 
-        public static IEnumerable<CodeInstruction> PlanetCoverageModify(IEnumerable<CodeInstruction> codeInstructions)
+        public static IEnumerable<CodeInstruction> PlanetCoverageModifyPatch(IEnumerable<CodeInstruction> codeInstructions)
         {
             var codeList = codeInstructions.ToList();
             var PlanetCoverages = AccessTools.Field(typeof(Page_CreateWorldParams), "PlanetCoverages");
@@ -139,7 +172,7 @@ namespace RWQoLPatch.HarmonyPatches
 
             return codeList.AsEnumerable();
         }
-        public static IEnumerable<CodeInstruction> CaravanNightRestTimeModify(IEnumerable<CodeInstruction> codeInstructions)
+        public static IEnumerable<CodeInstruction> CaravanNightRestTimeModifyPatch(IEnumerable<CodeInstruction> codeInstructions)
         {
             var codeList = codeInstructions.ToList();
             for (int i = 0; i < codeList.Count(); i++)
@@ -174,7 +207,7 @@ namespace RWQoLPatch.HarmonyPatches
                             typeof(Pawn), typeof(string).MakeByRefType(), typeof(string).MakeByRefType(),
                             typeof(LetterDef).MakeByRefType(), typeof(List<Pawn>).MakeByRefType()
                         }),
-                    new HarmonyMethod(typeof(CorePatches), nameof(NoPrisonBreak)),
+                    new HarmonyMethod(typeof(CorePatches), nameof(NoPrisonBreakPatch)),
                     HarmonyPatchType.Prefix
                 ),
                 new HarmonyPatchInfo(
@@ -190,13 +223,13 @@ namespace RWQoLPatch.HarmonyPatches
 #elif RIMWORLD_1_5
                     AccessTools.Method(typeof(Building_Door), "<GetGizmos>b__69_1"),
 #endif
-                    new HarmonyMethod(typeof(CorePatches), nameof(HoldOpenDoorInstantly)),
+                    new HarmonyMethod(typeof(CorePatches), nameof(HoldOpenDoorInstantlyPatch)),
                     HarmonyPatchType.Postfix
                 ),
                 new HarmonyPatchInfo(
                     "立即开关电源",
                     AccessTools.Method(typeof(CompFlickable), "<CompGetGizmosExtra>b__20_1"),
-                    new HarmonyMethod(typeof(CorePatches), nameof(TogglePowerInstantly)),
+                    new HarmonyMethod(typeof(CorePatches), nameof(TogglePowerInstantlyPatch)),
                     HarmonyPatchType.Prefix
                 ),
                 new HarmonyPatchInfo(
@@ -221,20 +254,38 @@ namespace RWQoLPatch.HarmonyPatches
                             typeof(BuildableDef), typeof(IntVec3), typeof(Rot4), typeof(Map), typeof(bool),
                             typeof(Thing), typeof(Thing), typeof(ThingDef), typeof(bool), typeof(bool), typeof(bool)
                         }),
-                    new HarmonyMethod(typeof(CorePatches), nameof(FloorNotOverrideFloor)),
+                    new HarmonyMethod(typeof(CorePatches), nameof(FloorNotOverrideFloorPatch)),
                     HarmonyPatchType.Prefix
                 ),
                 new HarmonyPatchInfo(
                     "全球覆盖率扩展",
                     AccessTools.Method(typeof(Page_CreateWorldParams), nameof(Page_CreateWorldParams.DoWindowContents), new[] {typeof(Rect)}),
-                    new HarmonyMethod(typeof(CorePatches), nameof(PlanetCoverageModify)),
+                    new HarmonyMethod(typeof(CorePatches), nameof(PlanetCoverageModifyPatch)),
                     HarmonyPatchType.Transpiler
                 ),
                 new HarmonyPatchInfo(
                     "远行队夜晚休息时间调整",
                     AccessTools.Method(typeof(CaravanNightRestUtility), nameof(CaravanNightRestUtility.WouldBeRestingAt), new[] {typeof(int), typeof(long)}),
-                    new HarmonyMethod(typeof(CorePatches), nameof(CaravanNightRestTimeModify)),
+                    new HarmonyMethod(typeof(CorePatches), nameof(CaravanNightRestTimeModifyPatch)),
                     HarmonyPatchType.Transpiler
+                ),
+                new HarmonyPatchInfo(
+                    "禁用短路事件",
+                    AccessTools.Method(typeof(IncidentWorker_ShortCircuit), "TryExecuteWorker", new[] {typeof(IncidentParms)}),
+                    new HarmonyMethod(typeof(CorePatches), nameof(NoShortCircuitPatch)),
+                    HarmonyPatchType.Prefix
+                ),
+                new HarmonyPatchInfo(
+                    "禁用太阳耀斑",
+                    AccessTools.Method(typeof(IncidentWorker_MakeGameCondition), "TryExecuteWorker", new[] {typeof(IncidentParms)}),
+                    new HarmonyMethod(typeof(CorePatches), nameof(NoSolarFlarePatch)),
+                    HarmonyPatchType.Prefix
+                ),
+                new HarmonyPatchInfo(
+                    "敌方中心空投变成边缘空投",
+                    AccessTools.Method(typeof(IncidentWorker_Raid), nameof(IncidentWorker_Raid.ResolveRaidArriveMode), new[] {typeof(IncidentParms)}),
+                    new HarmonyMethod(typeof(CorePatches), nameof(NoCenterDropPatch)),
+                    HarmonyPatchType.Postfix
                 ),
             };
         }

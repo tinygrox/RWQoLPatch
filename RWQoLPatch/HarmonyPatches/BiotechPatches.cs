@@ -117,9 +117,8 @@ namespace RWQoLPatch.HarmonyPatches
             var codeList = codeInstructions.ToList();
             for (int i = 0; i < codeList.Count; i++)
             {
-                if (codeList[i].opcode == OpCodes.Brfalse_S)
+                if (codeList[i].opcode == OpCodes.Brfalse_S && codeList[i].operand is Label firstLabel)
                 {
-                    var firstLabel = (Label)codeList[i].operand;
                     codeList.InsertRange(i + 1, new List<CodeInstruction>
                     {
                         new CodeInstruction(OpCodes.Ldsfld,
