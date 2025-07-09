@@ -149,10 +149,7 @@ namespace RWQoLPatch.HarmonyPatches
 
         private static float[] get_PlanetCoveragesModify()
         {
-
-            if (TheSettings.PlanetCoveragesModify)
-                return Enumerable.Range(1, 20).Select(i => i * 0.05f).ToArray();
-            return new [] { 0.3f, 0.5f, 1f };
+            return TheSettings.PlanetCoveragesModify ? Enumerable.Range(1, 20).Select(i => i * 0.05f).ToArray() : new [] { 0.3f, 0.5f, 1f };
         }
 
         public static IEnumerable<CodeInstruction> PlanetCoverageModifyPatch(IEnumerable<CodeInstruction> codeInstructions)
@@ -248,42 +245,51 @@ namespace RWQoLPatch.HarmonyPatches
                 ),
                 new HarmonyPatchInfo(
                     "铺设地板禁止覆盖其他地板",
+#if RIMWORLD_1_5
                     AccessTools.Method(typeof(GenConstruct), nameof(GenConstruct.CanPlaceBlueprintAt_NewTemp),
                         new []
                         {
                             typeof(BuildableDef), typeof(IntVec3), typeof(Rot4), typeof(Map), typeof(bool),
                             typeof(Thing), typeof(Thing), typeof(ThingDef), typeof(bool), typeof(bool), typeof(bool)
                         }),
+#elif RIMWORLD_1_6
+                    AccessTools.Method(typeof(GenConstruct), nameof(GenConstruct.CanPlaceBlueprintAt),
+                        new[]
+                        {
+                            typeof(BuildableDef), typeof(IntVec3), typeof(Rot4), typeof(Map), typeof(bool),
+                            typeof(Thing), typeof(Thing), typeof(ThingDef), typeof(bool), typeof(bool), typeof(bool)
+                        }),
+#endif
                     new HarmonyMethod(typeof(CorePatches), nameof(FloorNotOverrideFloorPatch)),
                     HarmonyPatchType.Prefix
                 ),
                 new HarmonyPatchInfo(
                     "全球覆盖率扩展",
-                    AccessTools.Method(typeof(Page_CreateWorldParams), nameof(Page_CreateWorldParams.DoWindowContents), new[] {typeof(Rect)}),
+                    AccessTools.Method(typeof(Page_CreateWorldParams), nameof(Page_CreateWorldParams.DoWindowContents), new[] { typeof(Rect) }),
                     new HarmonyMethod(typeof(CorePatches), nameof(PlanetCoverageModifyPatch)),
                     HarmonyPatchType.Transpiler
                 ),
                 new HarmonyPatchInfo(
                     "远行队夜晚休息时间调整",
-                    AccessTools.Method(typeof(CaravanNightRestUtility), nameof(CaravanNightRestUtility.WouldBeRestingAt), new[] {typeof(int), typeof(long)}),
+                    AccessTools.Method(typeof(CaravanNightRestUtility), nameof(CaravanNightRestUtility.WouldBeRestingAt), new[] { typeof(int), typeof(long) }),
                     new HarmonyMethod(typeof(CorePatches), nameof(CaravanNightRestTimeModifyPatch)),
                     HarmonyPatchType.Transpiler
                 ),
                 new HarmonyPatchInfo(
                     "禁用短路事件",
-                    AccessTools.Method(typeof(IncidentWorker_ShortCircuit), "TryExecuteWorker", new[] {typeof(IncidentParms)}),
+                    AccessTools.Method(typeof(IncidentWorker_ShortCircuit), "TryExecuteWorker", new[] { typeof(IncidentParms) }),
                     new HarmonyMethod(typeof(CorePatches), nameof(NoShortCircuitPatch)),
                     HarmonyPatchType.Prefix
                 ),
                 new HarmonyPatchInfo(
                     "禁用太阳耀斑",
-                    AccessTools.Method(typeof(IncidentWorker_MakeGameCondition), "TryExecuteWorker", new[] {typeof(IncidentParms)}),
+                    AccessTools.Method(typeof(IncidentWorker_MakeGameCondition), "TryExecuteWorker", new[] { typeof(IncidentParms) }),
                     new HarmonyMethod(typeof(CorePatches), nameof(NoSolarFlarePatch)),
                     HarmonyPatchType.Prefix
                 ),
                 new HarmonyPatchInfo(
                     "敌方中心空投变成边缘空投",
-                    AccessTools.Method(typeof(IncidentWorker_Raid), nameof(IncidentWorker_Raid.ResolveRaidArriveMode), new[] {typeof(IncidentParms)}),
+                    AccessTools.Method(typeof(IncidentWorker_Raid), nameof(IncidentWorker_Raid.ResolveRaidArriveMode), new[] { typeof(IncidentParms) }),
                     new HarmonyMethod(typeof(CorePatches), nameof(NoCenterDropPatch)),
                     HarmonyPatchType.Postfix
                 ),

@@ -25,6 +25,7 @@ namespace RWQoLPatch
             range.min = Mathf.Clamp(Mathf.Round(range.min / step) * step, min, max);
             range.max = Mathf.Clamp(Mathf.Round(range.max / step) * step, min, max);
         }
+        // TODO
         public static void FloatAdjuster(Listing_Standard UI, List<float> list, ref float buffer)
         {
             

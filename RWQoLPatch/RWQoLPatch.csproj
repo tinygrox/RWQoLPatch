@@ -56,13 +56,14 @@
   </PropertyGroup>
   <!-- Debug_1_5 的构建后复制事件 -->
   <Target Name="PostBuildCopy_1_5" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug_1_5'">
-    <Exec Command='copy /Y "$(TargetDir)RWQoLPatch.dll" "G:\Steam\steamapps\common\RimWorld\Mods\ModTransFix\1.5\Assemblies\"' />
-    <Exec Command='copy /Y "$(TargetDir)TinyGroxMods.HarmonyFramework.dll" "G:\Steam\steamapps\common\RimWorld\Mods\ModTransFix\1.5\Assemblies\000TinyGroxMods.HarmonyFramework.dll"' />
+    <Exec Command='copy /Y "$(TargetDir)RWQoLPatch.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.5\Assemblies"' />
+    <Exec Command='copy /Y "$(TargetDir)TinyGroxMods.HarmonyFramework.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.5\Assemblies\000TinyGroxMods.HarmonyFramework.dll"' />
   </Target>
 
   <!-- Debug_1_6 的构建后复制事件 -->
   <Target Name="PostBuildCopy_1_6" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug_1_6'">
-    <Exec Command='xcopy /Y /D /I "$(TargetDir)*.dll" "G:\Steam\steamapps\common\RimWorld\Mods\ModTransFix\1.6\Assemblies\"' />
+    <Exec Command='xcopy /Y /D /I "$(TargetDir)*.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies\"' />
+    <Exec Command='copy /Y "$(TargetDir)TinyGroxMods.HarmonyFramework.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies\000TinyGroxMods.HarmonyFramework.dll"' />
   </Target>
 
   <!-- <PropertyGroup>
