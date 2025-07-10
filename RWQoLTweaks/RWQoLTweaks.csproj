@@ -8,8 +8,8 @@
     <ProjectGuid>{F632FBFF-DF39-4DAA-8B93-2323D74124E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RWQoLPatch</RootNamespace>
-    <AssemblyName>RWQoLPatch</AssemblyName>
+    <RootNamespace>RWQoLTweaks</RootNamespace>
+    <AssemblyName>RWQoLTweaks</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>8</LangVersion>
@@ -55,13 +55,13 @@
   </PropertyGroup>
   <!-- Debug_1_5 的构建后复制事件 -->
   <Target Name="PostBuildCopy_1_5" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug_1_5'">
-    <Exec Command='copy /Y "$(TargetDir)RWQoLPatch.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.5\Assemblies"' />
+    <Exec Command='copy /Y "$(TargetDir)RWQoLTweaks.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.5\Assemblies"' />
     <Exec Command='copy /Y "$(TargetDir)TinyGroxMods.HarmonyFramework.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.5\Assemblies\000TinyGroxMods.HarmonyFramework.dll"' />
   </Target>
 
   <!-- Debug_1_6 的构建后复制事件 -->
   <Target Name="PostBuildCopy_1_6" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug_1_6'">
-    <Exec Command='copy /Y "$(TargetDir)RWQoLPatch.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies"' />
+    <Exec Command='copy /Y "$(TargetDir)RWQoLTweaks.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies"' />
     <Exec Command='copy /Y "$(TargetDir)TinyGroxMods.HarmonyFramework.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies\000TinyGroxMods.HarmonyFramework.dll"' />
   </Target>
 

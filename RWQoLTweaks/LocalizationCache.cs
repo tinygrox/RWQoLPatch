@@ -3,7 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace RWQoLPatch
+namespace RWQoLTweaks
 {
     // [StaticConstructorOnStartup]
     public static class LocalizationCache

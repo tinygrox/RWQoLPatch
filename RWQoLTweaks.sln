@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWQoLPatch", "RWQoLPatch\RWQoLPatch.csproj", "{F632FBFF-DF39-4DAA-8B93-2323D74124E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RWQoLTweaks", "RWQoLTweaks\RWQoLTweaks.csproj", "{F632FBFF-DF39-4DAA-8B93-2323D74124E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

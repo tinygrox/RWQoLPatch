@@ -6,7 +6,7 @@ using TinyGroxMods.HarmonyFramework;
 using UnityEngine;
 using Verse;
 
-namespace RWQoLPatch.HarmonyPatches
+namespace RWQoLTweaks.HarmonyPatches
 {
     public class DubsBadHygienePatches: AbstractPatchBase
     {

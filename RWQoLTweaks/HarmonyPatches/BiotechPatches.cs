@@ -9,7 +9,7 @@ using TinyGroxMods.HarmonyFramework;
 using UnityEngine;
 using Verse;
 
-namespace RWQoLPatch.HarmonyPatches
+namespace RWQoLTweaks.HarmonyPatches
 {
     public class BiotechPatches: AbstractPatchBase
     {
@@ -96,7 +96,7 @@ namespace RWQoLPatch.HarmonyPatches
                         AccessTools.PropertyGetter(typeof(Entity), nameof(Entity.LabelShortCap))))
                     continue;
                 
-                // pawn.LabelShortCap => pawn.LabelShortCap + RWQoLPatch.HarmonyPatches.BiotechPatches.Utility_GetTypeString(pawn)
+                // pawn.LabelShortCap => pawn.LabelShortCap + RWQoLTweaks.HarmonyPatches.BiotechPatches.Utility_GetTypeString(pawn)
                 if (codeList[i + 1].opcode == OpCodes.Ldloc_3)
                 {
                     codeList.InsertRange(i + 1, new List<CodeInstruction>()

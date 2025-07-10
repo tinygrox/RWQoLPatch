@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace RWQoLPatch
+namespace RWQoLTweaks
 {
     public static class Utilities_Method
     {

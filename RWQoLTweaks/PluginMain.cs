@@ -7,7 +7,7 @@ using HarmonyLib;
 using TinyGroxMods.HarmonyFramework;
 using Verse;
 
-namespace RWQoLPatch
+namespace RWQoLTweaks
 {
     [StaticConstructorOnStartup]
     public class PluginMain

@@ -7,7 +7,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse;
 
-namespace RWQoLPatch.HarmonyPatches
+namespace RWQoLTweaks.HarmonyPatches
 {
     public class LWMDeepStoragePatches: AbstractPatchBase
     {

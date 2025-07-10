@@ -6,7 +6,7 @@ using TinyGroxMods.HarmonyFramework;
 using UnityEngine;
 using Verse;
 
-namespace RWQoLPatch
+namespace RWQoLTweaks
 {
     public class ModMain: Mod
     {

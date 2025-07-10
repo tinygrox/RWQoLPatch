@@ -1,6 +1,6 @@
 using Verse;
 
-namespace RWQoLPatch
+namespace RWQoLTweaks
 {
     public class TheSettings: ModSettings
     {

@@ -2,7 +2,7 @@ using System.Text;
 using TinyGroxMods.HarmonyFramework;
 using Verse;
 
-namespace RWQoLPatch
+namespace RWQoLTweaks
 {
     public class RWLogger: IModLogger
     {

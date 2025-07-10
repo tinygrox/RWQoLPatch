@@ -8,7 +8,7 @@ using RimWorld;
 using TinyGroxMods.HarmonyFramework;
 using Verse;
 
-namespace RWQoLPatch.HarmonyPatches
+namespace RWQoLTweaks.HarmonyPatches
 {
     public class VanillaExpandedFrameworkPatches: AbstractPatchBase
     {

@@ -6,7 +6,7 @@ using HarmonyLib;
 using TinyGroxMods.HarmonyFramework;
 using Verse;
 
-namespace RWQoLPatch.HarmonyPatches
+namespace RWQoLTweaks.HarmonyPatches
 {
     public class RimatomicPatches:AbstractPatchBase
     {

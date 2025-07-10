@@ -1,7 +1,7 @@
 using TinyGroxMods.HarmonyFramework;
 using Verse;
 
-namespace RWQoLPatch.HarmonyPatches
+namespace RWQoLTweaks.HarmonyPatches
 {
     public class OdysseyPatches: AbstractPatchBase
     {

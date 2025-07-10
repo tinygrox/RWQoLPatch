@@ -4,7 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using Verse;
 
-namespace RWQoLPatch
+namespace RWQoLTweaks
 {
     public static class Utilities_UI
     {
