@@ -33,7 +33,7 @@ namespace RWQoLPatch.HarmonyPatches
             var tMethod = AccessTools.PropertyGetter(typeof(Pawn_PsychicEntropyTracker), nameof(Pawn_PsychicEntropyTracker.IsCurrentlyMeditating));
             var settingField = AccessTools.Field(typeof(TheSettings), nameof(TheSettings.NoPsyfocusDown));
 
-            for (int i = 0; i < codeList.Count - 1 && i <= 10; i++)
+            for (int i = 0; i < codeList.Count - 1; i++)
             {
                 // 纳闷了 C# 8.0 不支持 not
                 if (codeList[i].opcode != OpCodes.Call || !(codeList[i].operand is MethodInfo method) || method != tMethod)
@@ -45,7 +45,7 @@ namespace RWQoLPatch.HarmonyPatches
                     codeList.InsertRange(i + 2, new[]
                     {
                         new CodeInstruction(OpCodes.Ldsfld, settingField),
-                        new CodeInstruction(OpCodes.Brtrue_S, label)
+                        new CodeInstruction(OpCodes.Brtrue, label)
                     });
                     break;
                 }
@@ -65,7 +65,11 @@ namespace RWQoLPatch.HarmonyPatches
                 ),
                 new HarmonyPatchInfo(
                     "精神力不自动衰减",
+#if RIMWORLD_1_5
                     AccessTools.Method(typeof(Pawn_PsychicEntropyTracker), nameof(Pawn_PsychicEntropyTracker.PsychicEntropyTrackerTick)),
+#elif RIMWORLD_1_6
+                    AccessTools.Method(typeof(Pawn_PsychicEntropyTracker), nameof(Pawn_PsychicEntropyTracker.PsychicEntropyTrackerTickInterval), new[] { typeof(int) }),
+#endif
                     new HarmonyMethod(typeof(RoyaltyPatches), nameof(NoPsyfocusDownPatch)),
                     HarmonyPatchType.Transpiler
                 ),

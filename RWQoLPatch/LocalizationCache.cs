@@ -94,6 +94,32 @@ namespace RWQoLPatch
         {
             public static readonly string NoEnityEscape = "RWQoLPatch_NoEnityEscape".Translate();
         }
+
+        public static class Rimefeller
+        {
+            public static readonly string RimefellerUnmanPatch = "RWQoLPatch_RimefellerUnmanPatch".Translate();
+            public static readonly string RimefellerLocPatch = "RWQoLPatch_RimefellerLocPatch".Translate();
+        }
         
+        public static class Rimatomic
+        {
+            public static readonly string RimatomicUnmannedPatch = "RWQoLPatch_RimatomicUnmannedPatch".Translate();
+            public static readonly string RimatomicLocPatch = "RWQoLPatch_RimatomicLocPatch".Translate();
+        }
+
+        public static class DBH
+        {
+            public static readonly string DBHLocPatch = "RWQoLPatch_DBHLocPatch".Translate();
+        }
+
+        public static class LWMDS
+        {
+            public static readonly string LWMDeepStorageLocPatch = "RWQoLPatch_LWMDeepStorageLocPatch".Translate();
+        }
+
+        public static class VEF
+        {
+            public static readonly string VEFLocPatch = "RWQoLPatch_VEFLocPatch".Translate();
+        }
     }
 }

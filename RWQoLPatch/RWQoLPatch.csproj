@@ -13,7 +13,6 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>8</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,7 +61,7 @@
 
   <!-- Debug_1_6 的构建后复制事件 -->
   <Target Name="PostBuildCopy_1_6" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug_1_6'">
-    <Exec Command='xcopy /Y /D /I "$(TargetDir)*.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies\"' />
+    <Exec Command='copy /Y "$(TargetDir)RWQoLPatch.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies"' />
     <Exec Command='copy /Y "$(TargetDir)TinyGroxMods.HarmonyFramework.dll" "G:\Steam\steamapps\common\RimWorld\Mods\RWQoLPatches\1.6\Assemblies\000TinyGroxMods.HarmonyFramework.dll"' />
   </Target>
 
@@ -384,6 +383,7 @@
     <Compile Include="HarmonyPatches\RimatomicPatches.cs" />
     <Compile Include="HarmonyPatches\RimefellerPatches.cs" />
     <Compile Include="HarmonyPatches\RoyaltyPatches.cs" />
+    <Compile Include="HarmonyPatches\VanillaExpandedFrameworkPatches.cs" />
     <Compile Include="LocalizationCache.cs" />
     <Compile Include="ModMain.cs" />
     <Compile Include="PluginMain.cs" />
@@ -391,6 +391,7 @@
     <Compile Include="RWLogger.cs" />
     <Compile Include="RWModChecker.cs" />
     <Compile Include="TheSettings.cs" />
+    <Compile Include="Utilities_Method.cs" />
     <Compile Include="Utilities_UI.cs" />
   </ItemGroup>
   <ItemGroup>

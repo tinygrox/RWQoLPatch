@@ -90,7 +90,7 @@ namespace RWQoLPatch
 #if RIMWORLD_1_6
                 (ModsConfig.OdysseyActive, ls =>
                 {
-                    Utilities_UI.MediumLabel(ls,ModLister.GetExpansionWithIdentifier("ludeon.rimworld.odyssey").LabelCap);
+                    Utilities_UI.MediumLabel(ls, ModLister.GetExpansionWithIdentifier("ludeon.rimworld.odyssey").LabelCap);
                     ls.GapLine();
                 }),
 #endif
@@ -98,22 +98,18 @@ namespace RWQoLPatch
                 {
                     Utilities_UI.MediumLabel(ls, "Rimefeller");
                     ls.GapLine();
-                    ls.CheckboxLabeled("RWQoLPatch_RimefellerUnmanPatch".Translate(),
-                        ref TheSettings.RimefellerUnmannedPatch, "");
-                    ls.CheckboxLabeled("RWQoLPatch_RimefellerLocPatch".Translate(), ref TheSettings.RimefellerLocPatch);
+                    ls.CheckboxLabeled(LocalizationCache.Rimefeller.RimefellerUnmanPatch, ref TheSettings.RimefellerUnmannedPatch, "");
+                    ls.CheckboxLabeled(LocalizationCache.Rimefeller.RimefellerLocPatch, ref TheSettings.RimefellerLocPatch);
                     ls.Gap();
                 }),
                 (ModsConfig.IsActive("dubwise.rimatomics"), ls =>
                 {
                     Utilities_UI.MediumLabel(ls, "Rimatomics");
                     ls.GapLine();
-                    ls.CheckboxLabeled("RWQoLPatch_RimatomicUnmannedPatch".Translate(),
-                        ref TheSettings.RimatomicUnmannedPatch, "");
-                    ls.CheckboxLabeled("RWQoLPatch_RimatomicLocPatch".Translate(), ref TheSettings.RimatomicLocPatch,
-                        "");
+                    ls.CheckboxLabeled(LocalizationCache.Rimatomic.RimatomicUnmannedPatch, ref TheSettings.RimatomicUnmannedPatch, "");
+                    ls.CheckboxLabeled(LocalizationCache.Rimatomic.RimatomicLocPatch, ref TheSettings.RimatomicLocPatch, "");
 #if RIMWORLD_1_5
-                    ls.CheckboxLabeled("RWQoLPatch_RimatomicFixPatch".Translate(), ref TheSettings.RimatomicFixPatch,
-                        "");
+                    ls.CheckboxLabeled("RWQoLPatch_RimatomicFixPatch".Translate(), ref TheSettings.RimatomicFixPatch, "");
 #endif
 
                     ls.Gap();
@@ -122,15 +118,21 @@ namespace RWQoLPatch
                 {
                     Utilities_UI.MediumLabel(ls, "Dubs Bad Hygiene");
                     ls.GapLine();
-                    ls.CheckboxLabeled("RWQoLPatch_DBHLocPatch".Translate(), ref TheSettings.DBHLocPatch, "");
+                    ls.CheckboxLabeled(LocalizationCache.DBH.DBHLocPatch, ref TheSettings.DBHLocPatch, "");
                     ls.Gap();
                 }),
                 (ModsConfig.IsActive("lwm.deepstorage"), ls =>
                 {
                     Utilities_UI.MediumLabel(ls, "LWM's Deep Storage");
                     ls.GapLine();
-                    ls.CheckboxLabeled("RWQoLPatch_LWMDeepStorageLocPatch".Translate(),
-                        ref TheSettings.LWMDeepStorageLocPatch, "");
+                    ls.CheckboxLabeled(LocalizationCache.LWMDS.LWMDeepStorageLocPatch, ref TheSettings.LWMDeepStorageLocPatch, "");
+                    ls.Gap();
+                }),
+                (ModsConfig.IsActive("oskarpotocki.vanillafactionsexpanded.core"), ls =>
+                {
+                    Utilities_UI.MediumLabel(ls, "Vanilla Expanded Framework");
+                    ls.GapLine();
+                    ls.CheckboxLabeled(LocalizationCache.VEF.VEFLocPatch, ref TheSettings.VEFLocPatch, "");
                     ls.Gap();
                 })
             };
@@ -154,7 +156,7 @@ namespace RWQoLPatch
 
                 section.draw(measuringLS);
 
-                if (rows++ <= MaxRow)
+                if (++rows <= MaxRow)
                     colMaxHeight = measuringLS.CurHeight;
                 else
                 {
@@ -177,12 +179,12 @@ namespace RWQoLPatch
             Options_Content.Begin(scrollViewRect);
             int row = 0;
             bool newcol = false;
-            var MaxRow = Mathf.Max(4, sections.Count / 2);
+            var MaxRow = Mathf.Max(5, sections.Count / 2);
             foreach (var section in sections)
             {
                 if (!section.active) continue;
 
-                if (row++ > MaxRow && !newcol)
+                if (++row > MaxRow && !newcol)
                 {
                     Options_Content.ColumnWidth = (scrollViewRect.width -20f) / 2f;
                     newcol = true;
@@ -197,7 +199,7 @@ namespace RWQoLPatch
 
         public override string SettingsCategory()
         {
-            return $"RWQoLPatch_SettingTitle".Translate();
+            return $"RWQoLPatch".Translate();
         }
     }
 }

@@ -156,7 +156,7 @@ namespace RWQoLPatch.HarmonyPatches
         {
             var codeList = codeInstructions.ToList();
             var PlanetCoverages = AccessTools.Field(typeof(Page_CreateWorldParams), "PlanetCoverages");
-            var PlanetCoveragesDev = AccessTools.Field(typeof(Page_CreateWorldParams), "PlanetCoveragesDev");
+            // var PlanetCoveragesDev = AccessTools.Field(typeof(Page_CreateWorldParams), "PlanetCoveragesDev");
             for (int i = 0; i < codeList.Count(); i++)
             {
                 if (codeList[i].opcode == OpCodes.Ldsfld && codeList[i].operand as FieldInfo == PlanetCoverages)
@@ -271,7 +271,11 @@ namespace RWQoLPatch.HarmonyPatches
                 ),
                 new HarmonyPatchInfo(
                     "远行队夜晚休息时间调整",
+#if RIMWORLD_1_5
                     AccessTools.Method(typeof(CaravanNightRestUtility), nameof(CaravanNightRestUtility.WouldBeRestingAt), new[] { typeof(int), typeof(long) }),
+#elif RIMWORLD_1_6
+                    AccessTools.Method(typeof(CaravanNightRestUtility), nameof(CaravanNightRestUtility.WouldBeRestingAt), new[] { typeof(PlanetTile), typeof(long) }),
+#endif
                     new HarmonyMethod(typeof(CorePatches), nameof(CaravanNightRestTimeModifyPatch)),
                     HarmonyPatchType.Transpiler
                 ),
