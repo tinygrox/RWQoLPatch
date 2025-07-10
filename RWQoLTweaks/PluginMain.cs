@@ -16,14 +16,14 @@ namespace RWQoLTweaks
         {
             RWLogger logger = new RWLogger();
             Stopwatch clock = Stopwatch.StartNew();
-            Harmony harmonyInstance = new Harmony("tinygrox.mods.RWQoLPatch");
+            Harmony harmonyInstance = new Harmony("tinygrox.mods.RWQoLTweaks");
             // Harmony.DEBUG = true;
             var modchecker = new RWModChecker();
             IEnumerable<Type> patchTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => typeof(AbstractPatchBase).IsAssignableFrom(t) && !t.IsAbstract);
             
             int patches = 0;
             
-            AbstractPatchBase.ModName = "RWQoLPatch";
+            AbstractPatchBase.ModName = "RWQoLTweaks";
             
             foreach (var patchType in patchTypes)
             {

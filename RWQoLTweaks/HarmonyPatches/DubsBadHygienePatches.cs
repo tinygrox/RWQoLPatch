@@ -14,13 +14,13 @@ namespace RWQoLTweaks.HarmonyPatches
         {
             if (!TheSettings.DBHLocPatch || LanguageDatabase.activeLanguage.FriendlyNameEnglish == "English")
                 return "Water: ";
-            return "RWQoLPatch_DBHLocPatch_CompWaterFillable".Translate();
+            return LocalizationCache.DBH.DBHLocPatch_Water;
         }
         private static string DBH_CapString()
         {
             if (!TheSettings.DBHLocPatch)
                 return "Cap: {0}L";
-            return "RWQoLPatch_DBHLocPatch_PlaceWorker_UserGrid".Translate();
+            return LocalizationCache.DBH.DBHLocPatch_Cap;
         }
         public static IEnumerable<CodeInstruction> DBH_WaterStringPatch(IEnumerable<CodeInstruction> codeInstructions)
         {

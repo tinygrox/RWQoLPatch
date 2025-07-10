@@ -19,7 +19,7 @@ namespace RWQoLTweaks.HarmonyPatches
         {
             if (!TheSettings.RimatomicLocPatch)
                 return "Tracking";
-            return "RWQoLPatch_RimatomicLocPatch_Tracking".Translate().ToString();
+            return LocalizationCache.Rimatomic.RimatomicLocPatch_Tracking;
         }
 
         public static IEnumerable<CodeInstruction> RimatomicTrackingLocPatch(IEnumerable<CodeInstruction> codeInstructions)

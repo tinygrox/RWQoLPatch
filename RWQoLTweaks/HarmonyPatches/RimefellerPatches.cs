@@ -14,15 +14,15 @@ namespace RWQoLTweaks.HarmonyPatches
     {
         private static string BufferLocPatch()
         {
-            return !TheSettings.RimefellerLocPatch ? "Buffer: " : "RWQoLPatch_RimefellerLocPatch_buffer".Translate().ToString();
+            return !TheSettings.RimefellerLocPatch ? "Buffer: " : LocalizationCache.Rimefeller.RimefellerLocPatch_Buffer;
         }
         private static string ProductsLocPatch()
         {
-            return !TheSettings.RimefellerLocPatch ? "Products" : "RWQoLPatch_RimefellerLocPatch_Products".Translate().ToString();
+            return !TheSettings.RimefellerLocPatch ? "Products" : LocalizationCache.Rimefeller.RimefellerLocPatch_Products;
         }
         private static string TPBLocPatch()
         {
-            return !TheSettings.RimefellerLocPatch ? "\n\nTime per batch: " : "\n\n" + "RWQoLPatch_RimefellerLocPatch_TPB".Translate().ToString();
+            return !TheSettings.RimefellerLocPatch ? "\n\nTime per batch: " : "\n\n" + LocalizationCache.Rimefeller.RimefellerLocPatch_TPB;
         }
         public static IEnumerable<CodeInstruction> RimefellerCrudeCrackerUnmanPatch (IEnumerable<CodeInstruction> codeInstructions, ILGenerator iLGenerator)
         {

@@ -99,17 +99,23 @@ namespace RWQoLTweaks
         {
             public static readonly string RimefellerUnmanPatch = "RWQoLTweaks_RimefellerUnmanPatch".Translate();
             public static readonly string RimefellerLocPatch = "RWQoLTweaks_RimefellerLocPatch".Translate();
+            public static readonly string RimefellerLocPatch_Buffer = "RWQoLTweaks_RimefellerLocPatch_buffer".Translate();
+            public static readonly string RimefellerLocPatch_Products = "RWQoLTweaks_RimefellerLocPatch_Products".Translate();
+            public static readonly string RimefellerLocPatch_TPB = "RWQoLTweaks_RimefellerLocPatch_TPB".Translate();
         }
         
         public static class Rimatomic
         {
             public static readonly string RimatomicUnmannedPatch = "RWQoLTweaks_RimatomicUnmannedPatch".Translate();
             public static readonly string RimatomicLocPatch = "RWQoLTweaks_RimatomicLocPatch".Translate();
+            public static readonly string RimatomicLocPatch_Tracking = "RWQoLTweaks_RimatomicLocPatch_Tracking".Translate();
         }
 
         public static class DBH
         {
             public static readonly string DBHLocPatch = "RWQoLTweaks_DBHLocPatch".Translate();
+            public static readonly string DBHLocPatch_Water = "RWQoLTweaks_DBHLocPatch_CompWaterFillable".Translate();
+            public static readonly string DBHLocPatch_Cap = "RWQoLTweaks_DBHLocPatch_PlaceWorker_UserGrid".Translate();
         }
 
         public static class LWMDS

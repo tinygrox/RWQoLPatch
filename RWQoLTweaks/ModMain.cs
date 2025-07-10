@@ -109,7 +109,7 @@ namespace RWQoLTweaks
                     ls.CheckboxLabeled(LocalizationCache.Rimatomic.RimatomicUnmannedPatch, ref TheSettings.RimatomicUnmannedPatch, "");
                     ls.CheckboxLabeled(LocalizationCache.Rimatomic.RimatomicLocPatch, ref TheSettings.RimatomicLocPatch, "");
 #if RIMWORLD_1_5
-                    ls.CheckboxLabeled("RWQoLPatch_RimatomicFixPatch".Translate(), ref TheSettings.RimatomicFixPatch, "");
+                    ls.CheckboxLabeled("RWQoLTweaks_RimatomicFixPatch".Translate(), ref TheSettings.RimatomicFixPatch, "");
 #endif
 
                     ls.Gap();
