@@ -10,19 +10,19 @@ namespace RWQoLTweaks
     {
         public static class Core
         {
-            public static readonly string HoldOpenDoorInstantly ="RWQoLPatch_HoldOpenDoorInstantly".Translate();
-            public static readonly string MortarsAutoCool = "RWQoLPatch_MortarsAutoCool".Translate();
-            public static readonly string TogglePowerInstantly = "RWQoLPatch_TogglePowerInstantly".Translate();
-            public static readonly string NoPrisonBreak = "RWQoLPatch_NoPrisonBreak".Translate();
-            public static readonly string NoMoreRelation = "RWQoLPatch_NoMoreRelation".Translate();
-            public static readonly string NoBreakDownPatch = "RWQoLPatch_NoBreakDownPatch".Translate();
-            public static readonly string FloorNotOverrideFloor = "RWQoLPatch_FloorNotOverrideFloor".Translate();
-            public static readonly string FloorNotOverrideFloor_Tips = "RWQoLPatch_FloorNotOverrideFloor_Tips".Translate();
-            public static readonly string PlanetCoveragesModify = "RWQoLPatch_PlanetCoveragesModify".Translate();
-            public static readonly string CaravanNightRestTimeTooltips = "RWQoLPatch_CaravanNightRestTime_tooltips".Translate();
-            public static readonly string NoShortCircuit = "RWQoLPatch_NoShortCircuit".Translate();
-            public static readonly string NoSolarFlare = "RWQoLPatch_NoSolarFlare".Translate();
-            public static readonly string NoCenterDrop = "RWQoLPatch_NoCenterDrop".Translate();
+            public static readonly string HoldOpenDoorInstantly ="RWQoLTweaks_HoldOpenDoorInstantly".Translate();
+            public static readonly string MortarsAutoCool = "RWQoLTweaks_MortarsAutoCool".Translate();
+            public static readonly string TogglePowerInstantly = "RWQoLTweaks_TogglePowerInstantly".Translate();
+            public static readonly string NoPrisonBreak = "RWQoLTweaks_NoPrisonBreak".Translate();
+            public static readonly string NoMoreRelation = "RWQoLTweaks_NoMoreRelation".Translate();
+            public static readonly string NoBreakDownPatch = "RWQoLTweaks_NoBreakDownPatch".Translate();
+            public static readonly string FloorNotOverrideFloor = "RWQoLTweaks_FloorNotOverrideFloor".Translate();
+            public static readonly string FloorNotOverrideFloor_Tips = "RWQoLTweaks_FloorNotOverrideFloor_Tips".Translate();
+            public static readonly string PlanetCoveragesModify = "RWQoLTweaks_PlanetCoveragesModify".Translate();
+            public static readonly string CaravanNightRestTimeTooltips = "RWQoLTweaks_CaravanNightRestTime_tooltips".Translate();
+            public static readonly string NoShortCircuit = "RWQoLTweaks_NoShortCircuit".Translate();
+            public static readonly string NoSolarFlare = "RWQoLTweaks_NoSolarFlare".Translate();
+            public static readonly string NoCenterDrop = "RWQoLTweaks_NoCenterDrop".Translate();
             private static string cacheCaravanNightRestTime = string.Empty;
             private static FloatRange cacheTime = new FloatRange(0,0);
 
@@ -31,7 +31,7 @@ namespace RWQoLTweaks
                 if (range != cacheTime)
                 {
                     cacheTime = range;
-                    cacheCaravanNightRestTime = "RWQoLPatch_CaravanNightRestTime".Translate(range.min, range.max);
+                    cacheCaravanNightRestTime = "RWQoLTweaks_CaravanNightRestTime".Translate(range.min, range.max);
                 }
 
                 return cacheCaravanNightRestTime;
@@ -39,8 +39,8 @@ namespace RWQoLTweaks
         }
         public static class Royalty
         { 
-            public static readonly string SetTransporterAutoLoad = "RWQoLPatch_SetTransporterAutoLoad".Translate();
-            public static readonly string NoPsyfocusDown = "RWQoLPatch_NoPsyfocusDown".Translate();
+            public static readonly string SetTransporterAutoLoad = "RWQoLTweaks_SetTransporterAutoLoad".Translate();
+            public static readonly string NoPsyfocusDown = "RWQoLTweaks_NoPsyfocusDown".Translate();
         }
 
         public static class Ideology
@@ -53,7 +53,7 @@ namespace RWQoLTweaks
                 if (count != lastCount)
                 {
                     lastCount = count;
-                    cachePreceptRoleNum = "RWQoLPatch_PreceptRoleNum".Translate(count);
+                    cachePreceptRoleNum = "RWQoLTweaks_PreceptRoleNum".Translate(count);
                 }
 
                 return cachePreceptRoleNum;
@@ -63,12 +63,12 @@ namespace RWQoLTweaks
         public static class Biotech
         {
             public static readonly string SubCoreScannerShowPawnType =
-                "RWQoLPatch_SubCoreScannerShowPawnType".Translate();
+                "RWQoLTweaks_SubCoreScannerShowPawnType".Translate();
 
             public static readonly string DownedOverseerControlMechs =
-                "RWQoLPatch_DownedOverseerControlMechs".Translate();
+                "RWQoLTweaks_DownedOverseerControlMechs".Translate();
 
-            public static readonly string MechChargeRatePatch = "RWQoLPatch_MechChargeRatePatch".Translate();
+            public static readonly string MechChargeRatePatch = "RWQoLTweaks_MechChargeRatePatch".Translate();
 
             private static float lastChargeRate = -1f;
             private static string cacheTips = string.Empty;
@@ -78,7 +78,7 @@ namespace RWQoLTweaks
                 if (!Mathf.Approximately(mechChargeRate, lastChargeRate))
                 {
                     lastChargeRate = mechChargeRate;
-                    cacheTips = "RWQoLPatch_MechChargeRatePatchTips".Translate
+                    cacheTips = "RWQoLTweaks_MechChargeRatePatchTips".Translate
                     (
                         mechChargeRate.ToString("F2"),
                         Mathf.RoundToInt(100f / mechChargeRate),
@@ -92,34 +92,34 @@ namespace RWQoLTweaks
 
         public static class Anomaly
         {
-            public static readonly string NoEnityEscape = "RWQoLPatch_NoEnityEscape".Translate();
+            public static readonly string NoEnityEscape = "RWQoLTweaks_NoEnityEscape".Translate();
         }
 
         public static class Rimefeller
         {
-            public static readonly string RimefellerUnmanPatch = "RWQoLPatch_RimefellerUnmanPatch".Translate();
-            public static readonly string RimefellerLocPatch = "RWQoLPatch_RimefellerLocPatch".Translate();
+            public static readonly string RimefellerUnmanPatch = "RWQoLTweaks_RimefellerUnmanPatch".Translate();
+            public static readonly string RimefellerLocPatch = "RWQoLTweaks_RimefellerLocPatch".Translate();
         }
         
         public static class Rimatomic
         {
-            public static readonly string RimatomicUnmannedPatch = "RWQoLPatch_RimatomicUnmannedPatch".Translate();
-            public static readonly string RimatomicLocPatch = "RWQoLPatch_RimatomicLocPatch".Translate();
+            public static readonly string RimatomicUnmannedPatch = "RWQoLTweaks_RimatomicUnmannedPatch".Translate();
+            public static readonly string RimatomicLocPatch = "RWQoLTweaks_RimatomicLocPatch".Translate();
         }
 
         public static class DBH
         {
-            public static readonly string DBHLocPatch = "RWQoLPatch_DBHLocPatch".Translate();
+            public static readonly string DBHLocPatch = "RWQoLTweaks_DBHLocPatch".Translate();
         }
 
         public static class LWMDS
         {
-            public static readonly string LWMDeepStorageLocPatch = "RWQoLPatch_LWMDeepStorageLocPatch".Translate();
+            public static readonly string LWMDeepStorageLocPatch = "RWQoLTweaks_LWMDeepStorageLocPatch".Translate();
         }
 
         public static class VEF
         {
-            public static readonly string VEFLocPatch = "RWQoLPatch_VEFLocPatch".Translate();
+            public static readonly string VEFLocPatch = "RWQoLTweaks_VEFLocPatch".Translate();
         }
     }
 }

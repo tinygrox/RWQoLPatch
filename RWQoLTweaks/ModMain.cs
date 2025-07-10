@@ -199,7 +199,7 @@ namespace RWQoLTweaks
 
         public override string SettingsCategory()
         {
-            return $"RWQoLPatch".Translate();
+            return $"RWQoLTweaks".Translate();
         }
     }
 }
