@@ -28,17 +28,17 @@ namespace RWQoLTweaks
         {
             if (infoBuilder.Length > 0)
             {
-                Log.Message("======== Info ========\n" + infoBuilder);
+                Log.Message("================================== Info ==================================\n" + infoBuilder);
             }
 
             if (warningBuilder.Length > 0)
             {
-                Log.Warning("======== Warning ========\n" + warningBuilder);
+                Log.Warning("================================== Warning ==================================\n" + warningBuilder);
             }
 
             if (errorBuilder.Length > 0)
             {
-                Log.Error("======== Error ========\n" + errorBuilder);
+                Log.Error("================================== Error ==================================\n" + errorBuilder);
             }
             Reset();
         }
