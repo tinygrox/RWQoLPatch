@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,7 +5,6 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using TinyGroxMods.HarmonyFramework;
 using UnityEngine;
-using Verse;
 
 namespace RWQoLTweaks.HarmonyPatches
 {
@@ -89,14 +87,11 @@ namespace RWQoLTweaks.HarmonyPatches
         {
             var codeList = new List<CodeInstruction>(codeInstructions);
 
-            for (int i = 0; i < codeList.Count; i++)
+            foreach (var t in codeList.Where(t => t.opcode == OpCodes.Ldstr && (string)t.operand == "Buffer: "))
             {
-                if (codeList[i].opcode == OpCodes.Ldstr && (string)codeList[i].operand == "Buffer: ")
-                {
-                    codeList[i].opcode = OpCodes.Call;
-                    codeList[i].operand = AccessTools.Method(typeof(RimefellerPatches), nameof(BufferLocPatch));
-                    break;
-                }
+                t.opcode = OpCodes.Call;
+                t.operand = AccessTools.Method(typeof(RimefellerPatches), nameof(BufferLocPatch));
+                break;
             }
             
             return codeList.AsEnumerable();
@@ -106,14 +101,11 @@ namespace RWQoLTweaks.HarmonyPatches
             IEnumerable<CodeInstruction> codeInstructions)
         {
             var codeList = new List<CodeInstruction>(codeInstructions);
-            for (int i = 0; i < codeList.Count; i++)
+            foreach (var t in codeList.Where(t => t.opcode == OpCodes.Ldstr && (string)t.operand == "Products"))
             {
-                if (codeList[i].opcode == OpCodes.Ldstr && (string)codeList[i].operand == "Products")
-                {
-                    codeList[i].opcode = OpCodes.Call;
-                    codeList[i].operand = AccessTools.Method(typeof(RimefellerPatches), nameof(ProductsLocPatch));
-                    break;
-                }
+                t.opcode = OpCodes.Call;
+                t.operand = AccessTools.Method(typeof(RimefellerPatches), nameof(ProductsLocPatch));
+                break;
             }
 
             return codeList.AsEnumerable();
@@ -123,14 +115,11 @@ namespace RWQoLTweaks.HarmonyPatches
             IEnumerable<CodeInstruction> codeInstructions)
         {
             var codeList = new List<CodeInstruction>(codeInstructions);
-            for (int i = 0; i < codeList.Count; i++)
+            foreach (var t in codeList.Where(t => t.opcode == OpCodes.Ldstr && (string)t.operand == "\n\nTime per batch: "))
             {
-                if (codeList[i].opcode == OpCodes.Ldstr && (string)codeList[i].operand == "\n\nTime per batch: ")
-                {
-                    codeList[i].opcode = OpCodes.Call;
-                    codeList[i].operand = AccessTools.Method(typeof(RimefellerPatches), nameof(TPBLocPatch));
-                    break;
-                }
+                t.opcode = OpCodes.Call;
+                t.operand = AccessTools.Method(typeof(RimefellerPatches), nameof(TPBLocPatch));
+                break;
             }
 
             return codeList.AsEnumerable();

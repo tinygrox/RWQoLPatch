@@ -1,11 +1,8 @@
-using System;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace RWQoLTweaks
 {
-    // [StaticConstructorOnStartup]
     public static class LocalizationCache
     {
         public static class Core

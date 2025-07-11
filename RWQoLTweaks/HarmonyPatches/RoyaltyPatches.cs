@@ -18,7 +18,7 @@ namespace RWQoLTweaks.HarmonyPatches
         );
         public static void SetShuttleAutoload(ref bool ___autoload, CompShuttle __instance)
         {
-            if(__instance.Autoload && !TheSettings.TransporterAutoload) return;
+            if(__instance.Autoload || __instance.IsPlayerShuttle || !TheSettings.TransporterAutoload) return;
             
             ___autoload = true;
             if (!__instance.Transporter.LoadingInProgressOrReadyToLaunch)
