@@ -16,9 +16,11 @@ namespace RWQoLTweaks.HarmonyPatches
             typeof(Action<CompShuttle>),
             AccessTools.Method(typeof(CompShuttle), "CheckAutoload")
         );
+
+        private static readonly Func<CompShuttle, bool> Autoloadable = (Func<CompShuttle, bool>)Delegate.CreateDelegate(typeof(Func<CompShuttle, bool>), null, AccessTools.PropertyGetter(typeof(CompShuttle), "Autoloadable"));
         public static void SetShuttleAutoload(ref bool ___autoload, CompShuttle __instance)
         {
-            if(__instance.Autoload || __instance.IsPlayerShuttle || !TheSettings.TransporterAutoload) return;
+            if(!TheSettings.TransporterAutoload || !Autoloadable(__instance)) return;
             
             ___autoload = true;
             if (!__instance.Transporter.LoadingInProgressOrReadyToLaunch)
