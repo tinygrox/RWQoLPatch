@@ -13,7 +13,7 @@ namespace RWQoLTweaks.HarmonyPatches
 {
     public class BiotechPatches: AbstractPatchBase
     {
-        protected override string ModDisplayName => "Biotech";
+        protected override string ModDisplayName => "Biotech DLC";
         protected override string ModId => "ludeon.rimworld.biotech";
 
         public override bool IsModLoaded(IModChecker modChecker) => ModsConfig.BiotechActive;

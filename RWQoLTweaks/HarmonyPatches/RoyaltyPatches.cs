@@ -17,7 +17,11 @@ namespace RWQoLTweaks.HarmonyPatches
             AccessTools.Method(typeof(CompShuttle), "CheckAutoload")
         );
 
-        private static readonly Func<CompShuttle, bool> Autoloadable = (Func<CompShuttle, bool>)Delegate.CreateDelegate(typeof(Func<CompShuttle, bool>), null, AccessTools.PropertyGetter(typeof(CompShuttle), "Autoloadable"));
+        private static readonly Func<CompShuttle, bool> Autoloadable = (Func<CompShuttle, bool>)Delegate.CreateDelegate(
+            typeof(Func<CompShuttle, bool>),
+            null,
+            AccessTools.PropertyGetter(typeof(CompShuttle), "Autoloadable")
+        );
         public static void SetShuttleAutoload(ref bool ___autoload, CompShuttle __instance)
         {
             if(!TheSettings.TransporterAutoload || !Autoloadable(__instance)) return;
@@ -81,7 +85,7 @@ namespace RWQoLTweaks.HarmonyPatches
 
         public override bool IsModLoaded(IModChecker modChecker) => ModsConfig.RoyaltyActive;
 
-        protected override string ModDisplayName => "Royalty";
+        protected override string ModDisplayName => "Royalty DLC";
         protected override string ModId => "Ludeon.RimWorld.Royalty";
 
     }

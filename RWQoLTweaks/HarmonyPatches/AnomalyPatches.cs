@@ -47,7 +47,7 @@ namespace RWQoLTweaks.HarmonyPatches
             };
         }
 
-        protected override string ModDisplayName => "Anomaly";
+        protected override string ModDisplayName => "Anomaly DLC";
         protected override string ModId => "Ludeon.RimWorld.Anomaly";
         public override bool IsModLoaded(IModChecker modChecker) => ModsConfig.AnomalyActive;
     }

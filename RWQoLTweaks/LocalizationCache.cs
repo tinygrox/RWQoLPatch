@@ -92,6 +92,11 @@ namespace RWQoLTweaks
             public static readonly string NoEnityEscape = "RWQoLTweaks_NoEnityEscape".Translate();
         }
 
+        public static class Odyssey
+        {
+            // public static readonly string GravshipNoMaxRange = "RWQoLTweaks_GravshipNoMaxRange".Translate();
+            public static readonly string HackingNeverLockOut = "RWQoLTweaks_HackingNeverLockOut".Translate();
+        }
         public static class Rimefeller
         {
             public static readonly string RimefellerUnmanPatch = "RWQoLTweaks_RimefellerUnmanPatch".Translate();

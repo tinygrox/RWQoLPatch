@@ -92,6 +92,9 @@ namespace RWQoLTweaks
                 {
                     Utilities_UI.MediumLabel(ls, ModLister.GetExpansionWithIdentifier("ludeon.rimworld.odyssey").LabelCap);
                     ls.GapLine();
+                    // ls.CheckboxLabeled(LocalizationCache.Odyssey.GravshipNoMaxRange, ref TheSettings.GravshipNoMaxRange);
+                    ls.CheckboxLabeled(LocalizationCache.Odyssey.HackingNeverLockOut, ref TheSettings.HackingNeverLockOut);
+                    ls.Gap();
                 }),
 #endif
                 (ModsConfig.IsActive("Dubwise.Rimefeller"), ls =>

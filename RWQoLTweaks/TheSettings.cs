@@ -32,6 +32,8 @@ namespace RWQoLTweaks
         public static bool NoEnityEscape;
         public static bool NoPsyfocusDown;
         public static bool VEFLocPatch = true;
+        public static bool HackingNeverLockOut;
+        // public static bool GravshipNoMaxRange;
         public override void ExposeData()
         {
             Scribe_Values.Look(ref PreceptRoleNum, "tinygrox.ModSettings.PreceptRoleNum", 2);
@@ -63,6 +65,8 @@ namespace RWQoLTweaks
             Scribe_Values.Look(ref NoEnityEscape, "tinygrox.ModSettings.NoEnityEscape");
             Scribe_Values.Look(ref NoPsyfocusDown, "tinygrox.ModSettings.NoPsyfocusDown");
             Scribe_Values.Look(ref VEFLocPatch, "tinygrox.ModSettings.VEFLocPatch");
+            Scribe_Values.Look(ref HackingNeverLockOut, "tinygrox.ModSettings.HackingNeverLockOut");
+            // Scribe_Values.Look(ref GravshipNoMaxRange, "tinygrox.ModSettings.GravshipNoRange");
         }
     }
 }

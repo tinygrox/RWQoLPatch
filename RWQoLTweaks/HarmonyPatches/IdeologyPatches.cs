@@ -24,7 +24,7 @@ namespace RWQoLTweaks.HarmonyPatches
             };
         }
 
-        protected override string ModDisplayName => "Ideology";
+        protected override string ModDisplayName => "Ideology DLC";
         protected override string ModId => "Ludeon.RimWorld.Ideology";
         public override bool IsModLoaded(IModChecker modChecker) => ModsConfig.IdeologyActive;
         

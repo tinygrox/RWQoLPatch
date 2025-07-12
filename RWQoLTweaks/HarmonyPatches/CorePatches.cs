@@ -135,12 +135,6 @@ namespace RWQoLTweaks.HarmonyPatches
             if (terrainDef == null!) return true;
 
             if (terrainDef.categoryType == map.terrainGrid.TerrainAt(center).categoryType && 
-                // !map.terrainGrid.TerrainAt(center).IsOcean && 
-                // !map.terrainGrid.TerrainAt(center).IsWater && 
-                // !map.terrainGrid.TerrainAt(center).IsRiver &&
-                // !map.terrainGrid.TerrainAt(center).IsSoil &&
-                // !map.terrainGrid.TerrainAt(center).IsSubstructure &&
-                // !map.terrainGrid.TerrainAt(center).HasTag("Space") &&
                 !map.terrainGrid.TerrainAt(center).natural)
             {
                 __result = LocalizationCache.Core.FloorNotOverrideFloor_Tips;
