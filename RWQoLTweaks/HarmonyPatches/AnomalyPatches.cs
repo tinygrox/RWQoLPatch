@@ -24,7 +24,7 @@ namespace RWQoLTweaks.HarmonyPatches
                         codeList.InsertRange(i + 2, new[]
                         {
                             new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(TheSettings), nameof(TheSettings.NoEnityEscape))),
-                            new CodeInstruction(OpCodes.Brfalse_S, endRet)
+                            new CodeInstruction(OpCodes.Brtrue_S, endRet)
                         });
                         break;
                     }
