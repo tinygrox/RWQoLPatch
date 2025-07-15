@@ -17,6 +17,14 @@ namespace RWQoLTweaks.HarmonyPatches
         protected override string ModDisplayName => "Core";
         protected override string ModId => "ludeon.rimworld";
 
+        public static bool NoApparelDamagedThoughtPatch(ref ThoughtState __result)
+        {
+            if (!TheSettings.NoApparelDamagedThoughtPatch) return true;
+            
+            __result = ThoughtState.Inactive;
+            
+            return false;
+        }
         public static void NoCenterDropPatch(ref IncidentParms parms)
         {
             if (!TheSettings.NoCenterDrop ) return;
@@ -95,9 +103,11 @@ namespace RWQoLTweaks.HarmonyPatches
             }
         }
 
-        public static void HoldOpenDoorInstantlyPatch(ref bool ___holdOpenInt, ref bool ___openInt)
+        public static void HoldOpenDoorInstantlyPatch(bool ___holdOpenInt, ref bool ___openInt, Building_Door __instance)
         {
             if(!TheSettings.HoldOpenDoorInstantly) return;
+            
+            if(TheSettings.HoldOpenDoorInstantlyOnlyPoweredAutoDoor && !__instance.DoorPowerOn) return;
 
             ___openInt = ___holdOpenInt;
         }
@@ -295,6 +305,12 @@ namespace RWQoLTweaks.HarmonyPatches
                     AccessTools.Method(typeof(IncidentWorker_Raid), nameof(IncidentWorker_Raid.ResolveRaidArriveMode), new[] { typeof(IncidentParms) }),
                     new HarmonyMethod(typeof(CorePatches), nameof(NoCenterDropPatch)),
                     HarmonyPatchType.Postfix
+                ),
+                new HarmonyPatchInfo(
+                    "禁用衣衫褴褛",
+                    AccessTools.Method(typeof(ThoughtWorker_ApparelDamaged), "CurrentStateInternal", new[] { typeof(Pawn) }),
+                    new HarmonyMethod(typeof(CorePatches), nameof(NoApparelDamagedThoughtPatch)),
+                    HarmonyPatchType.Prefix
                 ),
             };
         }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -8,6 +10,7 @@ namespace RWQoLTweaks
         public static class Core
         {
             public static readonly string HoldOpenDoorInstantly ="RWQoLTweaks_HoldOpenDoorInstantly".Translate();
+            public static readonly string HoldOpenDoorInstantlyOnlyPoweredAutoDoor ="RWQoLTweaks_HoldOpenDoorInstantlyOnlyPoweredAutoDoor".Translate();
             public static readonly string MortarsAutoCool = "RWQoLTweaks_MortarsAutoCool".Translate();
             public static readonly string TogglePowerInstantly = "RWQoLTweaks_TogglePowerInstantly".Translate();
             public static readonly string NoPrisonBreak = "RWQoLTweaks_NoPrisonBreak".Translate();
@@ -20,6 +23,8 @@ namespace RWQoLTweaks
             public static readonly string NoShortCircuit = "RWQoLTweaks_NoShortCircuit".Translate();
             public static readonly string NoSolarFlare = "RWQoLTweaks_NoSolarFlare".Translate();
             public static readonly string NoCenterDrop = "RWQoLTweaks_NoCenterDrop".Translate();
+            public static readonly string NoApparelDamagedThought = "RWQoLTweaks_NoApparelDamagedThought".Translate();
+            
             private static string cacheCaravanNightRestTime = string.Empty;
             private static FloatRange cacheTime = new FloatRange(0,0);
 

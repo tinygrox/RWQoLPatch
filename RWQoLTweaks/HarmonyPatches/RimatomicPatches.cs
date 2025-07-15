@@ -39,13 +39,13 @@ namespace RWQoLTweaks.HarmonyPatches
             return codeList.AsEnumerable();
         }
 
-        public static void RimatomicStoragePoolFix(ref string __result)
-        {
-            if (__result == null! && TheSettings.RimatomicFixPatch)
-            {
-                __result = "GroupPlural".Translate();
-            }
-        }
+        // public static void RimatomicStoragePoolFix(ref string __result)
+        // {
+        //     if (__result == null! && TheSettings.RimatomicFixPatch)
+        //     {
+        //         __result = "GroupPlural".Translate();
+        //     }
+        // }
         
         protected override void LoadAllPatchInfo()
         {

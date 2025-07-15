@@ -23,6 +23,12 @@ namespace RWQoLTweaks
                     Utilities_UI.MediumLabel(ls, core);
                     ls.GapLine();
                     ls.CheckboxLabeled(LocalizationCache.Core.HoldOpenDoorInstantly, ref TheSettings.HoldOpenDoorInstantly);
+                    if (TheSettings.HoldOpenDoorInstantly)
+                    {
+                        ls.Indent(24f);
+                        ls.CheckboxLabeled(LocalizationCache.Core.HoldOpenDoorInstantlyOnlyPoweredAutoDoor,ref TheSettings.HoldOpenDoorInstantlyOnlyPoweredAutoDoor, labelPct:0.75f);
+                        ls.Outdent(24f);
+                    }
                     ls.CheckboxLabeled(LocalizationCache.Core.MortarsAutoCool, ref TheSettings.MortarsAutoCool);
                     ls.CheckboxLabeled(LocalizationCache.Core.NoPrisonBreak, ref TheSettings.NoPrisonBreak);
                     ls.CheckboxLabeled(LocalizationCache.Core.TogglePowerInstantly, ref TheSettings.TogglePowerInstantly);
@@ -33,6 +39,7 @@ namespace RWQoLTweaks
                     ls.CheckboxLabeled(LocalizationCache.Core.NoShortCircuit, ref TheSettings.NoShortCircuit);
                     ls.CheckboxLabeled(LocalizationCache.Core.NoSolarFlare, ref TheSettings.NoSolarFlare);
                     ls.CheckboxLabeled(LocalizationCache.Core.NoCenterDrop, ref TheSettings.NoCenterDrop);
+                    ls.CheckboxLabeled(LocalizationCache.Core.NoApparelDamagedThought, ref TheSettings.NoApparelDamagedThoughtPatch);
 
                     ls.Label(LocalizationCache.Core.CaravanNightRestTime(TheSettings.CaravanNightRestTime), tooltip: LocalizationCache.Core.CaravanNightRestTimeTooltips);
                     Utilities_UI.FloatRangeSliderWithStep(ls.GetRect(24f), ref TheSettings.CaravanNightRestTime, 0f,

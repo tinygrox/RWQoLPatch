@@ -9,19 +9,14 @@ namespace RWQoLTweaks
         public static bool SubCoreScannerShowPawnType = true;
         public static bool DownedOverseerControlMechs;
         public static bool HoldOpenDoorInstantly = true;
+        public static bool HoldOpenDoorInstantlyOnlyPoweredAutoDoor;
         public static bool TransporterAutoload = true;
         public static bool MortarsAutoCool = true;
         public static bool NoPrisonBreak;
         public static bool MechChargeRatePatch = true;
         public static float MechChargeRate = 0.05f;
         public static bool NoMoreRelationGen;
-        public static bool RimefellerUnmannedPatch;
-        public static bool RimefellerLocPatch;
-        public static bool RimatomicUnmannedPatch;
-        public static bool RimatomicLocPatch;
-        public static bool RimatomicFixPatch;
         public static bool NoBreakDownPatch;
-        public static bool DBHLocPatch;
         public static bool PlanetCoveragesModify;
         public static bool FloorNotOverrideFloor;
         public static bool LWMDeepStorageLocPatch;
@@ -31,13 +26,23 @@ namespace RWQoLTweaks
         public static bool NoCenterDrop;
         public static bool NoEnityEscape;
         public static bool NoPsyfocusDown;
-        public static bool VEFLocPatch = true;
         public static bool HackingNeverLockOut;
-        // public static bool GravshipNoMaxRange;
+        public static bool NoApparelDamagedThoughtPatch;
+        
+        // Mods
+        // public static bool RealTiltModLocPatch;
+        public static bool VEFLocPatch = true;
+        public static bool DBHLocPatch;
+        public static bool RimefellerUnmannedPatch;
+        public static bool RimefellerLocPatch;
+        public static bool RimatomicUnmannedPatch;
+        public static bool RimatomicLocPatch;
+        // public static bool RimatomicFixPatch;
         public override void ExposeData()
         {
             Scribe_Values.Look(ref PreceptRoleNum, "tinygrox.ModSettings.PreceptRoleNum", 2);
             Scribe_Values.Look(ref TogglePowerInstantly, "tinygrox.ModSettings.TogglePowerInstantly", true);
+            Scribe_Values.Look(ref HoldOpenDoorInstantlyOnlyPoweredAutoDoor, "tinygrox.ModSettings.HoldOpenDoorInstantlyOnlyPoweredAutoDoor", false);
             Scribe_Values.Look(ref SubCoreScannerShowPawnType, "tinygrox.ModSettings.SubCorePawnType", true);
             Scribe_Values.Look(ref DownedOverseerControlMechs, "tinygrox.ModSettings.DownedOverseerControlMechs");
             Scribe_Values.Look(ref HoldOpenDoorInstantly, "tinygrox.ModSettings.HoldOpenDoorInstantly", true);
@@ -50,7 +55,7 @@ namespace RWQoLTweaks
             Scribe_Values.Look(ref RimefellerLocPatch, "tinygrox.ModSettings.RimefellerLocPatch", true);
             Scribe_Values.Look(ref RimatomicUnmannedPatch, "tinygrox.ModSettings.RimatomicUnmannedPatch", true);
             Scribe_Values.Look(ref RimatomicLocPatch, "tinygrox.ModSettings.RimatomicLocPatch", true);
-            Scribe_Values.Look(ref RimatomicFixPatch, "tinygrox.ModSettings.RimatomicFixPatch");
+            // Scribe_Values.Look(ref RimatomicFixPatch, "tinygrox.ModSettings.RimatomicFixPatch");
             Scribe_Values.Look(ref NoMoreRelationGen, "tinygrox.ModSettings.NoMoreRelationGen");
             Scribe_Values.Look(ref NoBreakDownPatch, "tinygrox.ModSettings.NoBreakDownPatch");
             Scribe_Values.Look(ref DBHLocPatch, "tinygrox.ModSettings.DBHLocPatch");
@@ -66,7 +71,7 @@ namespace RWQoLTweaks
             Scribe_Values.Look(ref NoPsyfocusDown, "tinygrox.ModSettings.NoPsyfocusDown");
             Scribe_Values.Look(ref VEFLocPatch, "tinygrox.ModSettings.VEFLocPatch");
             Scribe_Values.Look(ref HackingNeverLockOut, "tinygrox.ModSettings.HackingNeverLockOut");
-            // Scribe_Values.Look(ref GravshipNoMaxRange, "tinygrox.ModSettings.GravshipNoRange");
+            Scribe_Values.Look(ref NoApparelDamagedThoughtPatch, "tinygrox.ModSettings.ApparelDamagedThoughtPatch");
         }
     }
 }
