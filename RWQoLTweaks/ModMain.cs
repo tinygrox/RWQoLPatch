@@ -101,6 +101,7 @@ namespace RWQoLTweaks
                     ls.GapLine();
                     // ls.CheckboxLabeled(LocalizationCache.Odyssey.GravshipNoMaxRange, ref TheSettings.GravshipNoMaxRange);
                     ls.CheckboxLabeled(LocalizationCache.Odyssey.HackingNeverLockOut, ref TheSettings.HackingNeverLockOut);
+                    ls.CheckboxLabeled(LocalizationCache.Odyssey.OrbitalHabitatCheck, ref TheSettings.OrbitalHabitatCheck);
                     ls.Gap();
                 }),
 #endif
@@ -144,7 +145,7 @@ namespace RWQoLTweaks
                     ls.GapLine();
                     ls.CheckboxLabeled(LocalizationCache.VEF.VEFLocPatch, ref TheSettings.VEFLocPatch, "");
                     ls.Gap();
-                })
+                }),
             };
         public ModMain(ModContentPack content) : base(content)
         {

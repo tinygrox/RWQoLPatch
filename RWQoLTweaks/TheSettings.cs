@@ -28,9 +28,9 @@ namespace RWQoLTweaks
         public static bool NoPsyfocusDown;
         public static bool HackingNeverLockOut;
         public static bool NoApparelDamagedThoughtPatch;
+        public static bool OrbitalHabitatCheck;
         
         // Mods
-        // public static bool RealTiltModLocPatch;
         public static bool VEFLocPatch = true;
         public static bool DBHLocPatch;
         public static bool RimefellerUnmannedPatch;
@@ -55,7 +55,6 @@ namespace RWQoLTweaks
             Scribe_Values.Look(ref RimefellerLocPatch, "tinygrox.ModSettings.RimefellerLocPatch", true);
             Scribe_Values.Look(ref RimatomicUnmannedPatch, "tinygrox.ModSettings.RimatomicUnmannedPatch", true);
             Scribe_Values.Look(ref RimatomicLocPatch, "tinygrox.ModSettings.RimatomicLocPatch", true);
-            // Scribe_Values.Look(ref RimatomicFixPatch, "tinygrox.ModSettings.RimatomicFixPatch");
             Scribe_Values.Look(ref NoMoreRelationGen, "tinygrox.ModSettings.NoMoreRelationGen");
             Scribe_Values.Look(ref NoBreakDownPatch, "tinygrox.ModSettings.NoBreakDownPatch");
             Scribe_Values.Look(ref DBHLocPatch, "tinygrox.ModSettings.DBHLocPatch");
@@ -72,6 +71,7 @@ namespace RWQoLTweaks
             Scribe_Values.Look(ref VEFLocPatch, "tinygrox.ModSettings.VEFLocPatch");
             Scribe_Values.Look(ref HackingNeverLockOut, "tinygrox.ModSettings.HackingNeverLockOut");
             Scribe_Values.Look(ref NoApparelDamagedThoughtPatch, "tinygrox.ModSettings.ApparelDamagedThoughtPatch");
+            Scribe_Values.Look(ref OrbitalHabitatCheck, "tinygrox.ModSettings.OrbitalHabitatCheck");
         }
     }
 }

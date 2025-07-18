@@ -99,8 +99,8 @@ namespace RWQoLTweaks
 
         public static class Odyssey
         {
-            // public static readonly string GravshipNoMaxRange = "RWQoLTweaks_GravshipNoMaxRange".Translate();
             public static readonly string HackingNeverLockOut = "RWQoLTweaks_HackingNeverLockOut".Translate();
+            public static readonly string OrbitalHabitatCheck = "RWQoLTweaks_OrbitalHabitatCheck".Translate();
         }
         public static class Rimefeller
         {

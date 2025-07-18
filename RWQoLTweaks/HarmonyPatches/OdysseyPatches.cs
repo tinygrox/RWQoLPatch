@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -124,6 +125,67 @@ namespace RWQoLTweaks.HarmonyPatches
 
             return codeList.AsEnumerable();
         }
+
+        public static IEnumerable<Gizmo> OrbitalHabitatCheckGizmosPatch(IEnumerable<Gizmo> gizmos, Building_GravEngine __instance)
+        {
+            foreach (var gizmo in gizmos)
+            {
+                yield return gizmo;
+            }
+            
+            if(!TheSettings.OrbitalHabitatCheck) yield break;
+
+            yield return new Command_Action
+            {
+                defaultLabel = "RWQoLTweaks_OrbitalHabitatCheck_Label".Translate(),
+                defaultDesc = "RWQoLTweaks_OrbitalHabitatCheck_Desc".Translate(),
+                icon = ContentFinder<Texture2D>.Get("UI/Commands/LaunchReport"),
+                action = () => OrbitalHabitatCheckDialog(__instance)
+            };
+        }
+
+        private static void OrbitalHabitatCheckDialog(Building_GravEngine engine)
+        {
+            StringBuilder sb = new StringBuilder();
+            int validSubstructure = engine.ValidSubstructure.Count;
+            int heaterReq = Mathf.CeilToInt(validSubstructure / 250f);
+            int oxygenPumpReq = Mathf.CeilToInt(validSubstructure / 400f);
+            int heaterCount = 0;
+            int oxygenPumpCount = 0;
+            
+            Map map = engine.Map;
+            ThingDef oxygenPumpDef = DefDatabase<ThingDef>.GetNamed("OxygenPump");
+            ThingDef heaterDef = DefDatabase<ThingDef>.GetNamed("Heater");
+
+            foreach (IntVec3 cell in engine.ValidSubstructure)
+            {
+                var things = cell.GetThingList(map);
+                foreach (var thing in things)
+                {
+                    if (thing.def == oxygenPumpDef || thing.HasComp<CompOxygenPusher>())
+                    {
+                        ++oxygenPumpCount;
+                    }
+                    else if (thing is Building_Heater || (thing.TryGetComp<CompHeatPusher>(out var compHeatPusher) && compHeatPusher.Props.heatPerSecond > 20f))
+                    {
+                        ++heaterCount;
+                    }
+                }
+            }
+
+            sb.AppendLine("RWQoLTweaks_OrbitalHabitatCheck_Orbitalstatus".Translate());
+
+
+            sb.AppendLine(Utilities_Method.FormatResource(oxygenPumpDef.LabelCap, oxygenPumpCount, oxygenPumpReq));
+            sb.AppendLine(Utilities_Method.FormatResource(heaterDef.LabelCap, heaterCount, heaterReq));
+
+            if (oxygenPumpCount >= oxygenPumpReq && heaterCount >= heaterReq)
+                sb.AppendLine("RWQoLTweaks_OrbitalHabitatCheck_Met".Translate());
+            else
+                sb.AppendLine("RWQoLTweaks_OrbitalHabitatCheck_UnMet".Translate());
+
+            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(sb.ToString(), null, null,false, "RWQoLTweaks_OrbitalHabitatCheck_Label".Translate(), WindowLayer.Dialog));
+        }
         protected override void LoadAllPatchInfo()
         {
             HarmonyPatches = new HashSet<HarmonyPatchInfo>
@@ -155,6 +217,12 @@ namespace RWQoLTweaks.HarmonyPatches
                     AccessTools.Method(typeof(CompHackable), nameof(CompHackable.Hack), new [] { typeof(float), typeof(Pawn), typeof(bool) }),
                     new HarmonyMethod(typeof(OdysseyPatches), nameof(HackingNeverLockOut)),
                     HarmonyPatchType.Transpiler
+                ),
+                new HarmonyPatchInfo(
+                    "逆重引擎显示轨道生存需求",
+                    AccessTools.Method(typeof(Building_GravEngine), nameof(Building_GravEngine.GetGizmos)),
+                    new HarmonyMethod(typeof(OdysseyPatches), nameof(OrbitalHabitatCheckGizmosPatch)),
+                    HarmonyPatchType.Postfix
                 ),
             };
         }
