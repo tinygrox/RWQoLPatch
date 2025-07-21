@@ -106,6 +106,8 @@ namespace RWQoLTweaks.HarmonyPatches
         public static void HoldOpenDoorInstantlyPatch(bool ___holdOpenInt, ref bool ___openInt, Building_Door __instance)
         {
             if(!TheSettings.HoldOpenDoorInstantly) return;
+
+            if (__instance.Faction != Faction.OfPlayer) return;
             
             if(TheSettings.HoldOpenDoorInstantlyOnlyPoweredAutoDoor && !__instance.DoorPowerOn) return;
 
