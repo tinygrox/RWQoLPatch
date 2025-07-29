@@ -102,6 +102,7 @@ namespace RWQoLTweaks
                     // ls.CheckboxLabeled(LocalizationCache.Odyssey.GravshipNoMaxRange, ref TheSettings.GravshipNoMaxRange);
                     ls.CheckboxLabeled(LocalizationCache.Odyssey.HackingNeverLockOut, ref TheSettings.HackingNeverLockOut);
                     ls.CheckboxLabeled(LocalizationCache.Odyssey.OrbitalHabitatCheck, ref TheSettings.OrbitalHabitatCheck);
+                    ls.CheckboxLabeled(LocalizationCache.Odyssey.ShuttleNoCoolDown, ref TheSettings.ShuttleNoCoolDownPatch);
                     ls.Gap();
                 }),
 #endif

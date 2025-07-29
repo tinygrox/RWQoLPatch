@@ -115,18 +115,26 @@ namespace RWQoLTweaks.HarmonyPatches
         public static IEnumerable<CodeInstruction> DownedCanControlMechs(IEnumerable<CodeInstruction> codeInstructions)
         {
             var codeList = codeInstructions.ToList();
-            for (int i = 0; i < codeList.Count; i++)
+            var targetMethod1 = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Downed));
+            for (int i = 1; i < codeList.Count; i++)
             {
-                if (codeList[i].opcode == OpCodes.Brfalse_S && codeList[i].operand is Label firstLabel)
+                if (codeList[i].opcode != OpCodes.Brfalse_S
+                    || !(codeList[i].operand is Label firstLabel)
+                    || codeList[i - 1].opcode != OpCodes.Callvirt
+                    || !(codeList[i - 1].operand is MethodInfo Method)
+                    || Method != targetMethod1
+                   )
                 {
-                    codeList.InsertRange(i + 1, new List<CodeInstruction>
-                    {
-                        new CodeInstruction(OpCodes.Ldsfld,
-                            AccessTools.Field(typeof(TheSettings), nameof(TheSettings.DownedOverseerControlMechs))),
-                        new CodeInstruction(OpCodes.Brfalse_S, firstLabel)
-                    });
-                    break;
+                    continue;
                 }
+                
+                codeList.InsertRange(i + 1, new List<CodeInstruction>
+                {
+                    new CodeInstruction(OpCodes.Ldsfld,
+                        AccessTools.Field(typeof(TheSettings), nameof(TheSettings.DownedOverseerControlMechs))),
+                    new CodeInstruction(OpCodes.Brtrue_S, firstLabel)
+                });
+                break;
             }
 
             return codeList.AsEnumerable();

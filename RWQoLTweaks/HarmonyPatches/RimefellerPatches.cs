@@ -5,6 +5,8 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using TinyGroxMods.HarmonyFramework;
 using UnityEngine;
+using Verse;
+using Verse.AI;
 
 namespace RWQoLTweaks.HarmonyPatches
 {
@@ -124,6 +126,36 @@ namespace RWQoLTweaks.HarmonyPatches
 
             return codeList.AsEnumerable();
         }
+        public static IEnumerable<CodeInstruction> CleanOilFixPatch(IEnumerable<CodeInstruction> codeInstructions, ILGenerator ilGenerator)
+        {
+            var codeList = codeInstructions.ToList();
+            MethodInfo methodRFNT = AccessTools.Method(typeof(JobDriver), nameof(JobDriver.ReadyForNextToil));
+            MethodInfo methodDesignationDelete =  AccessTools.Method(typeof(Designation), nameof(Designation.Delete));
+            
+            int targetIndex = codeList.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo mi && mi == methodRFNT);
+            
+            if (targetIndex == -1)
+                return codeList.AsEnumerable();
+            
+            var ldargLabel = ilGenerator.DefineLabel();
+            codeList[targetIndex + 1].labels.Add(ldargLabel);
+            codeList[targetIndex - 6].operand = ldargLabel;
+
+            var blockToMove = codeList.GetRange(targetIndex - 2, 3);
+            codeList.RemoveRange(targetIndex - 2, 3);
+            
+            int deleteIndex = codeList.FindIndex(ci => ci.opcode == OpCodes.Callvirt &&  ci.operand is MethodInfo mi && mi == methodDesignationDelete);
+            
+            if (deleteIndex == -1)
+                return codeList.AsEnumerable();
+            
+            codeList.InsertRange(deleteIndex + 1, blockToMove);
+            var label2 = ilGenerator.DefineLabel();
+            codeList[deleteIndex + 1].labels.Add(label2);
+            codeList[deleteIndex - 2].operand = label2;
+            
+            return codeList.AsEnumerable();
+        }
         protected override void LoadAllPatchInfo()
         {
             // 当然最简单的是直接修改 Rimefeller.Building_ResourceConsole::Manned() 永远为真即可
@@ -164,6 +196,13 @@ namespace RWQoLTweaks.HarmonyPatches
                     "Rimefeller - ITab_ResourceConsole 硬编码翻译补全2",
                     AccessTools.TypeByName("Rimefeller.ITab_ResourceConsole").Method("DoProductList", new[] { typeof(Rect) }),
                     new HarmonyMethod(typeof(RimefellerPatches), nameof(RimefellerResourceConsoleLocPatch2)),
+                    HarmonyPatchType.Transpiler
+                ),
+                new HarmonyPatchInfo
+                (
+                    "Rimefeller - 油污清理修复",
+                    AccessTools.TypeByName("Rimefeller.JobDriver_CleanOil+<>c__DisplayClass4_0").Method("<MakeNewToils>b__0"),
+                    new HarmonyMethod(typeof(RimefellerPatches), nameof(CleanOilFixPatch)),
                     HarmonyPatchType.Transpiler
                 ),
             };

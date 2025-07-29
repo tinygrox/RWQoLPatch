@@ -101,6 +101,7 @@ namespace RWQoLTweaks
         {
             public static readonly string HackingNeverLockOut = "RWQoLTweaks_HackingNeverLockOut".Translate();
             public static readonly string OrbitalHabitatCheck = "RWQoLTweaks_OrbitalHabitatCheck".Translate();
+            public static readonly string ShuttleNoCoolDown = "RWQoLTweaks_ShuttleNoCoolDown".Translate();
         }
         public static class Rimefeller
         {

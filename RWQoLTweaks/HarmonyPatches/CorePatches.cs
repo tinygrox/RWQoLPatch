@@ -202,6 +202,7 @@ namespace RWQoLTweaks.HarmonyPatches
 
             return codeList.AsEnumerable();
         }
+        
         protected override void LoadAllPatchInfo()
         {
             HarmonyPatches = new HashSet<HarmonyPatchInfo>()

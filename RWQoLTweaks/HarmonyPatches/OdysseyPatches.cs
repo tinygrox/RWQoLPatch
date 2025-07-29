@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using HarmonyLib;
 using RimWorld;
@@ -186,35 +187,49 @@ namespace RWQoLTweaks.HarmonyPatches
 
             Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(sb.ToString(), null, null,false, "RWQoLTweaks_OrbitalHabitatCheck_Label".Translate(), WindowLayer.Dialog));
         }
+        
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static bool ShuttleNoCoolDownPatch(CompLaunchable __instance)
+        {
+            if (!TheSettings.ShuttleNoCoolDownPatch)
+            {
+                return true;
+            }
+            
+            if (__instance.parent.def != ThingDefOf.PassengerShuttle) return true;
+            
+            if (__instance.parent.Faction != Faction.OfPlayer) return true;
+
+            return false;
+        }
+
+        public static IEnumerable<CodeInstruction> ShuttleNoCoolDownTranspilerPatch(IEnumerable<CodeInstruction> codeInstructions)
+        {
+            var codeList = codeInstructions.ToList();
+            for (int i = 2; i < codeList.Count; i++)
+            {
+                if(codeList[i].opcode != OpCodes.Ble_S || codeList[i - 1].opcode != OpCodes.Ldc_I4_0 || codeList[i - 2].opcode != OpCodes.Ldloc_0) continue;
+                
+                var label = (Label)codeList[i].operand;
+                
+                codeList.InsertRange(i + 1, new[]
+                {
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(OdysseyPatches), nameof(ShuttleNoCoolDownPatch))),
+                    new CodeInstruction(OpCodes.Brfalse_S, label)
+                });
+            }
+            
+            return codeList.AsEnumerable();
+        }
         protected override void LoadAllPatchInfo()
         {
             HarmonyPatches = new HashSet<HarmonyPatchInfo>
             {
-                // new HarmonyPatchInfo(
-                //     "逆重飞船最大发射距离 - 解除限制",
-                //     // RimWorld.CompPilotConsole+<>c__DisplayClass12_0.<StartChoosingDestination>b__0
-                //     AccessTools.Method(AccessTools.TypeByName("RimWorld.CompPilotConsole+<>c__DisplayClass12_0"), "<StartChoosingDestination>b__0", new[]{typeof(PlanetTile)}),
-                //     new HarmonyMethod(typeof(OdysseyPatches), nameof(GravshipNoMaxRangePatch)),
-                //     HarmonyPatchType.Transpiler
-                // ),
-                // new HarmonyPatchInfo(
-                //     "逆重飞船最大发射距离 - 无超距提示",
-                //     // RimWorld.CompPilotConsole+<>c__DisplayClass12_0.<StartChoosingDestination>b__2
-                //     AccessTools.Method(AccessTools.TypeByName("RimWorld.CompPilotConsole+<>c__DisplayClass12_0"), "<StartChoosingDestination>b__2"),
-                //     new HarmonyMethod(typeof(OdysseyPatches), nameof(GravshipNoMaxRangeTooltipsPatch)),
-                //     HarmonyPatchType.Transpiler
-                // ),
-                // new HarmonyPatchInfo(
-                //     "逆重飞船最大发射距离 - 视觉范围",
-                //     // RimWorld.CompPilotConsole+<>c__DisplayClass12_0.<StartChoosingDestination>b__3
-                //     AccessTools.Method(AccessTools.TypeByName("RimWorld.CompPilotConsole+<>c__DisplayClass12_0"), "<StartChoosingDestination>b__3"),
-                //     new HarmonyMethod(typeof(OdysseyPatches), nameof(GravshipNoMaxRangeDrawRadiuPatch)),
-                //     HarmonyPatchType.Transpiler
-                // ),
                 new HarmonyPatchInfo(
                     "骇入永不锁定",
                     // RimWorld.CompPilotConsole+<>c__DisplayClass12_0.<StartChoosingDestination>b__3
-                    AccessTools.Method(typeof(CompHackable), nameof(CompHackable.Hack), new [] { typeof(float), typeof(Pawn), typeof(bool) }),
+                    AccessTools.Method(typeof(CompHackable), nameof(CompHackable.Hack), new[] { typeof(float), typeof(Pawn), typeof(bool) }),
                     new HarmonyMethod(typeof(OdysseyPatches), nameof(HackingNeverLockOut)),
                     HarmonyPatchType.Transpiler
                 ),
@@ -223,6 +238,18 @@ namespace RWQoLTweaks.HarmonyPatches
                     AccessTools.Method(typeof(Building_GravEngine), nameof(Building_GravEngine.GetGizmos)),
                     new HarmonyMethod(typeof(OdysseyPatches), nameof(OrbitalHabitatCheckGizmosPatch)),
                     HarmonyPatchType.Postfix
+                ),
+                new HarmonyPatchInfo(
+                    "禁用载客穿梭机冷却",
+                    AccessTools.Method(typeof(CompLaunchable), nameof(CompLaunchable.CanLaunch), new[] { typeof(float?) }),
+                    new HarmonyMethod(typeof(OdysseyPatches), nameof(ShuttleNoCoolDownTranspilerPatch)),
+                    HarmonyPatchType.Transpiler
+                ),
+                new HarmonyPatchInfo(
+                    "禁用载客穿梭机冷却 - 禁用提示冷却文本",
+                    AccessTools.Method(typeof(CompLaunchable), nameof(CompLaunchable.CompInspectStringExtra)),
+                    new HarmonyMethod(typeof(OdysseyPatches), nameof(ShuttleNoCoolDownTranspilerPatch)),
+                    HarmonyPatchType.Transpiler
                 ),
             };
         }

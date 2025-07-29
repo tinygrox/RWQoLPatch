@@ -29,6 +29,7 @@ namespace RWQoLTweaks
         public static bool HackingNeverLockOut;
         public static bool NoApparelDamagedThoughtPatch;
         public static bool OrbitalHabitatCheck;
+        public static bool ShuttleNoCoolDownPatch;
         
         // Mods
         public static bool VEFLocPatch = true;
@@ -72,6 +73,7 @@ namespace RWQoLTweaks
             Scribe_Values.Look(ref HackingNeverLockOut, "tinygrox.ModSettings.HackingNeverLockOut");
             Scribe_Values.Look(ref NoApparelDamagedThoughtPatch, "tinygrox.ModSettings.ApparelDamagedThoughtPatch");
             Scribe_Values.Look(ref OrbitalHabitatCheck, "tinygrox.ModSettings.OrbitalHabitatCheck");
+            Scribe_Values.Look(ref ShuttleNoCoolDownPatch, "tinygrox.ModSettings.ShuttleNoCoolDownPatch");
         }
     }
 }
