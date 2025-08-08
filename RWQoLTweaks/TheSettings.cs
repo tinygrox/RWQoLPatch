@@ -30,6 +30,8 @@ namespace RWQoLTweaks
         public static bool NoApparelDamagedThoughtPatch;
         public static bool OrbitalHabitatCheck;
         public static bool ShuttleNoCoolDownPatch;
+        public static bool NoMechCommandRadius;
+        public static bool IgnorePyrophobiaAtZeroFlammability;
         
         // Mods
         public static bool VEFLocPatch = true;
@@ -74,6 +76,8 @@ namespace RWQoLTweaks
             Scribe_Values.Look(ref NoApparelDamagedThoughtPatch, "tinygrox.ModSettings.ApparelDamagedThoughtPatch");
             Scribe_Values.Look(ref OrbitalHabitatCheck, "tinygrox.ModSettings.OrbitalHabitatCheck");
             Scribe_Values.Look(ref ShuttleNoCoolDownPatch, "tinygrox.ModSettings.ShuttleNoCoolDownPatch");
+            Scribe_Values.Look(ref NoMechCommandRadius, "tinygrox.ModSettings.NoMechCommandRadius");
+            Scribe_Values.Look(ref IgnorePyrophobiaAtZeroFlammability, "tinygrox.ModSettings.IgnorePyrophobiaAtZeroFlammability");
         }
     }
 }

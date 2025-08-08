@@ -71,6 +71,8 @@ namespace RWQoLTweaks
                 "RWQoLTweaks_DownedOverseerControlMechs".Translate();
 
             public static readonly string MechChargeRatePatch = "RWQoLTweaks_MechChargeRatePatch".Translate();
+            public static readonly string NoMechCommandRadius = "RWQoLTweaks_NoMechCommandRadius".Translate();
+            public static readonly string IgnorePyrophobiaAtZeroFlammability = "RWQoLTweaks_IgnorePyrophobiaAtZeroFlammability".Translate();
 
             private static float lastChargeRate = -1f;
             private static string cacheTips = string.Empty;

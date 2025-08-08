@@ -140,6 +140,29 @@ namespace RWQoLTweaks.HarmonyPatches
             return codeList.AsEnumerable();
         }
 
+        public static bool MechCommandRadiusPatch()
+        {
+            return !TheSettings.NoMechCommandRadius;
+        }
+        public static bool MechCommandRadiusPatch(ref bool __result)
+        {
+            __result = true;
+
+            return !TheSettings.NoMechCommandRadius;
+        }
+
+        public static bool FireTerrorFlammability(Pawn pawn, ref bool __result)
+        {
+            if (!TheSettings.IgnorePyrophobiaAtZeroFlammability)
+                return true;
+
+            if (pawn.GetStatValue(StatDefOf.Flammability) >= 0.01f) return true;
+            
+            __result = false;
+            
+            return false;
+        }
+
         protected override void LoadAllPatchInfo()
         {
             HarmonyPatches = new HashSet<HarmonyPatchInfo>()
@@ -158,6 +181,20 @@ namespace RWQoLTweaks.HarmonyPatches
                     HarmonyPatchType.Transpiler
                 ),
                 new HarmonyPatchInfo(
+                    "机械体无限范围控制",
+                    AccessTools.Method(typeof(Pawn_MechanitorTracker),
+                        nameof(Pawn_MechanitorTracker.CanCommandTo), new[] { typeof(LocalTargetInfo) }),
+                    new HarmonyMethod(typeof(BiotechPatches), nameof(MechCommandRadiusPatch), new[] { typeof(bool).MakeByRefType() }),
+                    HarmonyPatchType.Prefix
+                ),
+                new HarmonyPatchInfo(
+                    "机械体无限范围控制 - 控制范围显示",
+                    AccessTools.Method(typeof(Pawn_MechanitorTracker),
+                        nameof(Pawn_MechanitorTracker.DrawCommandRadius)),
+                    new HarmonyMethod(typeof(BiotechPatches), nameof(MechCommandRadiusPatch), new Type[] { }),
+                    HarmonyPatchType.Prefix
+                ),
+                new HarmonyPatchInfo(
                     "机械体充电速率修改",
                     AccessTools.Method(typeof(Building_MechCharger), "Tick"),
                     new HarmonyMethod(typeof(BiotechPatches), nameof(Building_MechChargerTickPatch)),
@@ -165,9 +202,15 @@ namespace RWQoLTweaks.HarmonyPatches
                 ),
                 new HarmonyPatchInfo(
                     "机械体充电速率修改 - 相应信息",
-                    AccessTools.Method(typeof(Pawn),nameof(Pawn.GetInspectString)),
+                    AccessTools.Method(typeof(Pawn), nameof(Pawn.GetInspectString)),
                     new HarmonyMethod(typeof(BiotechPatches), nameof(MechChargeRateInspectPatch)),
                     HarmonyPatchType.Transpiler
+                ),
+                new HarmonyPatchInfo(
+                    "恐火症基因增强 - 易燃性为 0 时无视",
+                    AccessTools.Method(typeof(ThoughtWorker_Pyrophobia), nameof(ThoughtWorker_Pyrophobia.NearFire), new[] { typeof(Pawn) }),
+                    new HarmonyMethod(typeof(BiotechPatches), nameof(FireTerrorFlammability)),
+                    HarmonyPatchType.Prefix
                 ),
             };
         }

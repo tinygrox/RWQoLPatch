@@ -12,7 +12,6 @@ namespace RWQoLTweaks.HarmonyPatches
 {
     public class VanillaExpandedFrameworkPatches: AbstractPatchBase
     {
-        private static List<FloatMenuOption> LocQualityFloatMenu;
 
         private static readonly Dictionary<string, string> QualityLabelReplacements = new Dictionary<string, string>()
         {
@@ -24,23 +23,30 @@ namespace RWQoLTweaks.HarmonyPatches
             { nameof(QualityCategory.Masterwork), QualityCategory.Masterwork.GetLabel().CapitalizeFirst() },
             { nameof(QualityCategory.Legendary), QualityCategory.Legendary.GetLabel().CapitalizeFirst() },
         };
-        public static void VEFQualitySelectionsLocPatch (ref List<FloatMenuOption> __result)
+        public static IEnumerable<CodeInstruction> VEFQualitySelectionsLocPatch( IEnumerable<CodeInstruction> codeInstructions)
         {
-            if (!TheSettings.VEFLocPatch) return;
-
-            if (LocQualityFloatMenu == null)
+            var codeList = codeInstructions.ToList();
+            var tMethod = AccessTools.Method(typeof(object), nameof(ToString));
+            var dMethod = AccessTools.Method(typeof(Utilities_Method), nameof(Utilities_Method.GetQualityLabel), new[] { typeof(QualityCategory) });
+            var num = 0;
+            for (int i = 1; i < codeList.Count; i++)
             {
-                LocQualityFloatMenu = __result.ListFullCopy();
-                foreach (var floatMenuOption in LocQualityFloatMenu)
-                {
-                    if (QualityLabelReplacements.TryGetValue(floatMenuOption.Label, out string localized))
-                    {
-                        floatMenuOption.Label = localized;
-                    }
-                }
+                if(num >= 7)
+                    break;
+
+                if (codeList[i].opcode != OpCodes.Callvirt || !(codeList[i].operand is MethodInfo method) || method != tMethod) continue;
+
+                if (codeList[i - 1].opcode != OpCodes.Constrained) continue;
+
+                codeList[i - 1].opcode = OpCodes.Ldobj;
+                codeList[i].opcode = OpCodes.Call;
+                codeList[i].operand = dMethod;
+
+                num++;
+                
             }
 
-            __result = LocQualityFloatMenu;
+            return codeList.AsEnumerable();
         }
         public static IEnumerable<CodeInstruction> VEFProcessDoInterfaceLocPatch(IEnumerable<CodeInstruction> codeInstructions)
         {
@@ -70,7 +76,7 @@ namespace RWQoLTweaks.HarmonyPatches
                     "VEF 翻译补充 - Process.QualitySelections",
                     AccessTools.PropertyGetter(AccessTools.TypeByName("PipeSystem.Process"), "QualitySelections"),
                     new HarmonyMethod(typeof(VanillaExpandedFrameworkPatches), nameof(VEFQualitySelectionsLocPatch)),
-                    HarmonyPatchType.Postfix
+                    HarmonyPatchType.Transpiler
                 ),
                 new HarmonyPatchInfo
                 (

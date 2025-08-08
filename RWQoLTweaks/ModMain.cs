@@ -82,6 +82,9 @@ namespace RWQoLTweaks
                         ls.Outdent(24f);
                         TheSettings.MechChargeRate = Mathf.Round(ls.Slider(TheSettings.MechChargeRate, 0.05f, 10f) * 20f) / 20f;
                     }
+                    
+                    ls.CheckboxLabeled(LocalizationCache.Biotech.NoMechCommandRadius, ref TheSettings.NoMechCommandRadius);
+                    ls.CheckboxLabeled(LocalizationCache.Biotech.IgnorePyrophobiaAtZeroFlammability, ref TheSettings.IgnorePyrophobiaAtZeroFlammability);
 
                     ls.Gap();
                 }),
