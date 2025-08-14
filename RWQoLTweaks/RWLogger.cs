@@ -9,6 +9,26 @@ namespace RWQoLTweaks
         private readonly StringBuilder infoBuilder = new StringBuilder();
         private readonly StringBuilder warningBuilder = new StringBuilder();
         private readonly StringBuilder errorBuilder = new StringBuilder();
+
+        public RWLogger Info(string info)
+        {
+            this.LogMessage(info);
+
+            return this;
+        }
+
+        public RWLogger Warning(string warning)
+        {
+            this.LogWarning(warning);
+            return this;
+        }
+
+        public RWLogger Error(string error)
+        {
+            this.LogError(error);
+            return this;
+        }
+        
         public void LogWarning(string message)
         {
             warningBuilder.AppendLine(message);
