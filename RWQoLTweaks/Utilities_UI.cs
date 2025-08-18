@@ -26,24 +26,24 @@ namespace RWQoLTweaks
             range.max = Mathf.Clamp(Mathf.Round(range.max / step) * step, min, max);
         }
         // TODO
-        public static void FloatAdjuster(Listing_Standard UI, List<float> list, ref float buffer)
-        {
-            
-            Rect rect = UI.GetRect(24f);
-            rect.width = 42f;
-            if (Widgets.ButtonText(rect, "-"))
-            {
-
-            }
-            rect.x += rect.width + 2f;
-            rect.width = 84f;
-            Widgets.TextField(rect, buffer.ToString(CultureInfo.CurrentCulture));
-            rect.x += rect.width + 30f;
-            rect.width = 42f;
-            if (Widgets.ButtonText(rect, "+"))
-            {
-                list.Add(buffer);
-            }
-        }
+        // public static void FloatAdjuster(Listing_Standard UI, List<float> list, ref float buffer)
+        // {
+        //     
+        //     Rect rect = UI.GetRect(24f);
+        //     rect.width = 42f;
+        //     if (Widgets.ButtonText(rect, "-"))
+        //     {
+        //
+        //     }
+        //     rect.x += rect.width + 2f;
+        //     rect.width = 84f;
+        //     Widgets.TextField(rect, buffer.ToString(CultureInfo.CurrentCulture));
+        //     rect.x += rect.width + 30f;
+        //     rect.width = 42f;
+        //     if (Widgets.ButtonText(rect, "+"))
+        //     {
+        //         list.Add(buffer);
+        //     }
+        // }
     }
 }
