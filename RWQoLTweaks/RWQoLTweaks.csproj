@@ -375,8 +375,10 @@
   <ItemGroup>
     <Compile Include="HarmonyPatches\AnomalyPatches.cs" />
     <Compile Include="HarmonyPatches\BiotechPatches.cs" />
+    <Compile Include="HarmonyPatches\Core40KPatches.cs" />
     <Compile Include="HarmonyPatches\CorePatches.cs" />
     <Compile Include="HarmonyPatches\DubsBadHygienePatches.cs" />
+    <Compile Include="HarmonyPatches\Genes40KPatches.cs" />
     <Compile Include="HarmonyPatches\IdeologyPatches.cs" />
     <Compile Include="HarmonyPatches\LWMDeepStoragePatches.cs" />
     <Compile Include="HarmonyPatches\OdysseyPatches.cs" />
