@@ -148,12 +148,11 @@ namespace RWQoLTweaks.HarmonyPatches
 
             if (terrainDef.IsSubstructure || map.terrainGrid.TerrainAt(center).IsSubstructure) return true;
 
-            if (terrainDef.categoryType == map.terrainGrid.TerrainAt(center).categoryType && 
-                !map.terrainGrid.TerrainAt(center).natural)
-            {
-                __result = LocalizationCache.Core.FloorNotOverrideFloor_Tips;
-                return false;
-            }
+            if (map.terrainGrid.TerrainAt(center).natural)
+                return true;
+            
+            __result = LocalizationCache.Core.FloorNotOverrideFloor_Tips;
+            return false;
 
             return true;
         }
