@@ -154,7 +154,6 @@ namespace RWQoLTweaks.HarmonyPatches
             __result = LocalizationCache.Core.FloorNotOverrideFloor_Tips;
             return false;
 
-            return true;
         }
 
         private static float[] get_PlanetCoveragesModify()
