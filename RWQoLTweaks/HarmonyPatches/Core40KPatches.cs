@@ -47,6 +47,6 @@ namespace RWQoLTweaks.HarmonyPatches
 
         protected override string ModDisplayName => "RimDark 40k - Framework";
 
-        protected override string ModId => "phonicmas.rimdark.framework";
+        protected override string ModId => "phonicmas.rimdark.frameworkcore";
     }
 }

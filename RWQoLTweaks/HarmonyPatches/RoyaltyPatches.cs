@@ -82,7 +82,6 @@ namespace RWQoLTweaks.HarmonyPatches
             };
         }
 
-
         public override bool IsModLoaded(IModChecker modChecker) => ModsConfig.RoyaltyActive;
 
         protected override string ModDisplayName => "Royalty DLC";
